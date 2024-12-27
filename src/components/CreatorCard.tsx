@@ -24,14 +24,16 @@ export default function CreatorCard({
         whileHover={{ scale: 1.05 }}
         transition={{ type: "spring", stiffness: 300 }}
       >
-        <Card>
+        <Card className="bg-card border-primary dark:border-secondary">
           <CardHeader className="flex flex-row items-center gap-4">
-            <Avatar className="h-12 w-12">
+            <Avatar className="h-12 w-12 border-2 border-primary dark:border-secondary">
               <AvatarImage src={`https://avatar.vercel.sh/${name}`} />
-              <AvatarFallback>{name[0]}</AvatarFallback>
+              <AvatarFallback className="bg-primary text-primary-foreground">
+                {name[0]}
+              </AvatarFallback>
             </Avatar>
             <div>
-              <h3 className="font-semibold">{name}</h3>
+              <h3 className="font-semibold text-foreground">{name}</h3>
               <p className="text-sm text-muted-foreground">
                 {supporters} supporters
               </p>
