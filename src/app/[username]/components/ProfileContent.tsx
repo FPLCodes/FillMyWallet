@@ -11,6 +11,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Card, CardContent } from "@/components/ui/card";
 import { Profile } from "../page";
 import SupportForm from "./SupportForm";
+import GradientSelector from "./GradientSelector";
 
 interface ProfileContentProps {
   profile: Profile;
@@ -51,19 +52,11 @@ export default function ProfileContent({ profile }: ProfileContentProps) {
       {/* Cover Photo */}
       <div className={`w-full h-64 ${selectedGradient}`}>
         <div className="mx-auto px-4 h-full flex items-end justify-end pb-4">
-          <div className="flex space-x-2">
-            {gradients.map((gradient, index) => (
-              <button
-                key={index}
-                className={`w-8 h-8 rounded-full ${gradient} border-2 ${
-                  selectedGradient === gradient
-                    ? "border-white"
-                    : "border-transparent"
-                }`}
-                onClick={() => setSelectedGradient(gradient)}
-              />
-            ))}
-          </div>
+          <GradientSelector
+            selectedGradient={selectedGradient}
+            gradients={gradients}
+            setSelectedGradient={setSelectedGradient}
+          />
         </div>
       </div>
 
