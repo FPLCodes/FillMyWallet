@@ -51,7 +51,7 @@ export default function ProfileContent({ profile }: ProfileContentProps) {
     <div className="min-h-screen">
       {/* Cover Photo */}
       <div className={`w-full h-64 ${selectedGradient}`}>
-        <div className="mx-auto px-4 h-full flex items-end justify-end pb-4">
+        <div className="mx-auto px-4 h-full flex items-start justify-end pt-4">
           <GradientSelector
             selectedGradient={selectedGradient}
             gradients={gradients}

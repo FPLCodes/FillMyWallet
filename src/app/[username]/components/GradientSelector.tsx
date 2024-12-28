@@ -22,7 +22,7 @@ export default function GradientSelector({
         <Button
           variant="outline"
           size="icon"
-          className="rounded-full border-0 hover:bg-muted hover:text-muted-foreground"
+          className="rounded-full border-0 bg-muted/40 hover:bg-muted/60 hover:text-muted-foreground"
         >
           <Edit3 />
         </Button>
