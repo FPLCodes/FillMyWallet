@@ -3,11 +3,16 @@
 import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
-import { Wallet2, ArrowRight, Check, ArrowLeft } from "lucide-react";
+import {
+  Wallet2,
+  ArrowRight,
+  ArrowLeft,
+  LinkIcon,
+  Loader2,
+} from "lucide-react";
 import { useWallet } from "@solana/wallet-adapter-react";
 
 import { Button } from "@/components/ui/button";
@@ -27,39 +32,47 @@ import { WalletMultiButton } from "@solana/wallet-adapter-react-ui";
 const formSchema = z.object({
   username: z.string().min(3).max(50),
   bio: z.string().max(160).optional(),
+  website: z.string().url().optional().or(z.literal("")),
 });
 
 export default function CreateProfile() {
   const [step, setStep] = useState(1);
+  const [isCreating, setIsCreating] = useState(false);
   const { connected, publicKey } = useWallet();
-  const router = useRouter();
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
       username: "",
       bio: "",
+      website: "",
     },
   });
 
   useEffect(() => {
     if (connected && publicKey) {
-      // This is where you would check if the user already has an account
-      // For now, we'll just log the public key
       console.log("Connected wallet:", publicKey.toBase58());
 
       // TODO: Implement check with backend
       // If user exists, redirect to dashboard
       // Example:
       // checkUserExists(publicKey.toBase58()).then(exists => {
-      //   if (exists) router.push('/dashboard')
+      //   if (exists) window.location.href = '/dashboard'
       // })
     }
-  }, [connected, publicKey, router]);
+  }, [connected, publicKey]);
 
-  function onSubmit(values: z.infer<typeof formSchema>) {
+  async function onSubmit(values: z.infer<typeof formSchema>) {
+    setIsCreating(true);
     console.log(values);
-    setStep(3);
+
+    // Simulate API call
+    await new Promise((resolve) => setTimeout(resolve, 2000));
+
+    // TODO: Implement actual profile creation logic here
+
+    // Redirect to profile page
+    window.location.href = "/profile";
   }
 
   const fadeInUp = {
@@ -161,31 +174,41 @@ export default function CreateProfile() {
                     </FormItem>
                   )}
                 />
-                <Button type="submit" className="w-full">
-                  Create Profile
+                <FormField
+                  control={form.control}
+                  name="website"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Website or Social Link (Optional)</FormLabel>
+                      <FormControl>
+                        <div className="relative">
+                          <LinkIcon className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 transform text-muted-foreground" />
+                          <Input
+                            placeholder="https://your-website.com"
+                            className="pl-10"
+                            {...field}
+                          />
+                        </div>
+                      </FormControl>
+                      <FormDescription>
+                        Share your website or main social media profile.
+                      </FormDescription>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <Button type="submit" className="w-full" disabled={isCreating}>
+                  {isCreating ? (
+                    <>
+                      <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                      Creating Profile...
+                    </>
+                  ) : (
+                    "Create Profile"
+                  )}
                 </Button>
               </form>
             </Form>
-          </motion.div>
-        )}
-
-        {step === 3 && (
-          <motion.div variants={fadeInUp} className="text-center">
-            <div className="flex justify-center mb-4">
-              <div className="rounded-full bg-success p-2">
-                <Check className="h-6 w-6 text-success-foreground" />
-              </div>
-            </div>
-            <h2 className="text-2xl font-semibold mb-4 text-foreground">
-              Profile Created!
-            </h2>
-            <p className="text-muted-foreground mb-6">
-              Your crypto-powered creator profile is ready. Start sharing and
-              receiving support!
-            </p>
-            <Button asChild>
-              <Link href="/dashboard">Go to Dashboard</Link>
-            </Button>
           </motion.div>
         )}
       </motion.div>
