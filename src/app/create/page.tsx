@@ -1,12 +1,14 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
-import { Wallet2, ArrowRight, Check } from "lucide-react";
+import { Wallet2, ArrowRight, Check, ArrowLeft } from "lucide-react";
+import { useWallet } from "@solana/wallet-adapter-react";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -29,6 +31,8 @@ const formSchema = z.object({
 
 export default function CreateProfile() {
   const [step, setStep] = useState(1);
+  const { connected, publicKey } = useWallet();
+  const router = useRouter();
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -37,6 +41,21 @@ export default function CreateProfile() {
       bio: "",
     },
   });
+
+  useEffect(() => {
+    if (connected && publicKey) {
+      // This is where you would check if the user already has an account
+      // For now, we'll just log the public key
+      console.log("Connected wallet:", publicKey.toBase58());
+
+      // TODO: Implement check with backend
+      // If user exists, redirect to dashboard
+      // Example:
+      // checkUserExists(publicKey.toBase58()).then(exists => {
+      //   if (exists) router.push('/dashboard')
+      // })
+    }
+  }, [connected, publicKey, router]);
 
   function onSubmit(values: z.infer<typeof formSchema>) {
     console.log(values);
@@ -61,11 +80,22 @@ export default function CreateProfile() {
       </Link>
 
       <motion.div
-        className="w-full max-w-md bg-card p-8 rounded-lg shadow-lg"
+        className="w-full max-w-md bg-card p-8 rounded-lg shadow-lg relative"
         initial="initial"
         animate="animate"
         variants={fadeInUp}
       >
+        {step === 2 && (
+          <Button
+            variant="ghost"
+            size="icon"
+            className="absolute top-4 left-4 hover:bg-transparent hover:text-primary"
+            onClick={() => setStep(1)}
+          >
+            <ArrowLeft className="h-4 w-4" />
+          </Button>
+        )}
+
         <h1 className="text-3xl font-bold text-center mb-6 text-foreground">
           Create Your Profile
         </h1>
@@ -78,7 +108,11 @@ export default function CreateProfile() {
             <div className="flex justify-center mb-6">
               <WalletMultiButton className="!bg-accent hover:!bg-accent/90 transition-colors !rounded-lg !py-2 !px-4 !font-medium" />
             </div>
-            <Button className="w-full" onClick={() => setStep(2)}>
+            <Button
+              className="w-full"
+              onClick={() => setStep(2)}
+              disabled={!connected}
+            >
               Next <ArrowRight className="ml-2 h-4 w-4" />
             </Button>
           </motion.div>
