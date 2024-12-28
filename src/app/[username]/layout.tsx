@@ -1,8 +1,8 @@
 "use client";
 
 import Link from "next/link";
-import { Wallet2 } from "lucide-react";
 import { WalletMultiButton } from "@solana/wallet-adapter-react-ui";
+import Image from "next/image";
 
 export default function ProfileLayout({
   children,
@@ -16,9 +16,7 @@ export default function ProfileLayout({
         <div className="container mx-auto px-4">
           <div className="flex items-center justify-between h-16">
             <Link href="/" className="flex items-center space-x-3">
-              <div className="rounded-xl bg-primary p-2">
-                <Wallet2 className="h-5 w-5 text-primary-foreground" />
-              </div>
+              <Image src="/logo.png" alt="Logo" width={32} height={32} />
               <span className="text-xl font-bold text-primary dark:text-secondary">
                 FillMyWallet
               </span>
