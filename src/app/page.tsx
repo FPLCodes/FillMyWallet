@@ -41,7 +41,7 @@ export default function Home() {
               <Input
                 type="search"
                 placeholder="Find creators to support..."
-                className="pl-10 border-primary focus-visible:ring-accent"
+                className="pl-10 border-primary focus-visible:ringaccent"
               />
             </div>
           </div>
