@@ -40,8 +40,6 @@ const profiles: Record<string, Profile> = {
         id: 1,
         name: "Alex",
         amount: 0.1,
-        message:
-          "Love your latest NFT collection! Keep creating amazing art! 🎨",
         avatar: "https://api.dicebear.com/9.x/fun-emoji/svg?seed=1",
       },
       {

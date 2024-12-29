@@ -22,7 +22,7 @@ export default function SupportForm({
   handleCustomAmountChange: (value: string) => void;
   displayAmount: string;
 }) {
-  const predefinedAmounts = [0.1, 0.2, 0.5, 1];
+  const predefinedAmounts = [0.1, 0.2, 0.5, 1.0];
 
   return (
     <Card className="sticky top-8 border-2 border-primary shadow-lg">
@@ -42,19 +42,19 @@ export default function SupportForm({
               )
             }
           >
-            <div className="flex justify-between mb-2">
+            <div className="flex justify-between mb-2 bg-muted p-4 rounded-lg">
               {predefinedAmounts.map((amount) => (
-                <div key={amount}>
+                <div key={amount.toFixed(1)}>
                   <RadioGroupItem
-                    value={amount.toString()}
-                    id={`amount-${amount}`}
+                    value={amount.toFixed(1)}
+                    id={`amount-${amount.toFixed(1)}`}
                     className="peer sr-only"
                   />
                   <Label
-                    htmlFor={`amount-${amount}`}
+                    htmlFor={`amount-${amount.toFixed(1)}`}
                     className="flex items-center justify-center rounded-md border-2 border-muted bg-card px-3 py-2 hover:border-primary peer-data-[state=checked]:bg-primary peer-data-[state=checked]:text-primary-foreground"
                   >
-                    {amount}
+                    {amount.toFixed(1)}
                   </Label>
                 </div>
               ))}

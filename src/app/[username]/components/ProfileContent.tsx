@@ -139,7 +139,11 @@ export default function ProfileContent({ profile }: ProfileContentProps) {
                         {visibleSupporters.map((supporter) => (
                           <Card key={supporter.id}>
                             <CardContent className="p-4">
-                              <div className="flex gap-4">
+                              <div
+                                className={`flex gap-4 ${
+                                  !supporter.message ? "items-center" : ""
+                                }`}
+                              >
                                 <Avatar>
                                   <AvatarImage src={supporter.avatar} />
                                   <AvatarFallback>
@@ -158,7 +162,9 @@ export default function ProfileContent({ profile }: ProfileContentProps) {
                                       </p>
                                     </div>
                                   </div>
-                                  <p className="mt-2">{supporter.message}</p>
+                                  {supporter.message ? (
+                                    <p className="mt-2">{supporter.message}</p>
+                                  ) : null}
                                 </div>
                               </div>
                             </CardContent>
