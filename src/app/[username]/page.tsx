@@ -4,7 +4,6 @@ import Link from "next/link";
 
 export interface Profile {
   username: string;
-  name: string;
   title: string;
   bio: string;
   avatar: string;
@@ -16,11 +15,10 @@ export interface Profile {
   };
   supporters: {
     id: number;
-    name: string;
-    amount: string;
-    message: string;
+    name?: string;
+    amount: number;
+    message?: string;
     avatar: string;
-    timestamp: string;
   }[];
 }
 
@@ -28,7 +26,6 @@ export interface Profile {
 const profiles: Record<string, Profile> = {
   cryptoartist: {
     username: "cryptoartist",
-    name: "Sarah Wilson",
     title: "Digital Artist & NFT Creator",
     bio: "Creating unique digital art and NFT collections. Join me on this creative journey into the world of blockchain art. Your support helps me continue pushing the boundaries of digital creativity.",
     avatar: "/placeholder.svg",
@@ -42,26 +39,22 @@ const profiles: Record<string, Profile> = {
       {
         id: 1,
         name: "Alex",
-        amount: "0.1 SOL",
+        amount: 0.1,
         message:
           "Love your latest NFT collection! Keep creating amazing art! 🎨",
-        avatar: "/placeholder.svg",
-        timestamp: "2 hours ago",
+        avatar: "https://api.dicebear.com/9.x/fun-emoji/svg?seed=1",
       },
       {
         id: 2,
-        name: "Maria",
-        amount: "0.2 SOL",
+        amount: 0.2,
         message:
           "Your art inspires me every day. Thank you for sharing your talent!",
-        avatar: "/placeholder.svg",
-        timestamp: "1 day ago",
+        avatar: "https://api.dicebear.com/9.x/fun-emoji/svg?seed=2",
       },
     ],
   },
   web3dev: {
     username: "web3dev",
-    name: "John Smith",
     title: "Blockchain Developer & Educator",
     bio: "Building the future of Web3. Teaching others about blockchain technology and smart contract development.",
     avatar: "/placeholder.svg",

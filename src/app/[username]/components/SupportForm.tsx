@@ -28,7 +28,7 @@ export default function SupportForm({
     <Card className="sticky top-8 border-2 border-primary shadow-lg">
       <CardHeader className="bg-primary/5 mb-4">
         <CardTitle className="text-center text-primary">
-          Support {profile.name}
+          Support {profile.username}
         </CardTitle>
       </CardHeader>
       <CardContent>

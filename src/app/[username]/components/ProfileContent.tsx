@@ -74,11 +74,11 @@ export default function ProfileContent({ profile }: ProfileContentProps) {
                   <div className="flex flex-col sm:flex-row gap-6 items-start sm:items-center">
                     <Avatar className="w-24 h-24 border-4 border-background">
                       <AvatarImage src={profile.avatar} />
-                      <AvatarFallback>{profile.name[0]}</AvatarFallback>
+                      <AvatarFallback>{profile.username[0]}</AvatarFallback>
                     </Avatar>
                     <div className="flex-1">
                       <h1 className="text-2xl font-bold text-foreground">
-                        {profile.name}
+                        {profile.username}
                       </h1>
                       <p className="text-muted-foreground">{profile.title}</p>
                       <div className="flex gap-4 mt-4">
@@ -143,22 +143,20 @@ export default function ProfileContent({ profile }: ProfileContentProps) {
                                 <Avatar>
                                   <AvatarImage src={supporter.avatar} />
                                   <AvatarFallback>
-                                    {supporter.name[0]}
+                                    {supporter.name?.[0] ?? "U"}
                                   </AvatarFallback>
                                 </Avatar>
                                 <div className="flex-1">
                                   <div className="flex justify-between items-start">
-                                    <div>
-                                      <p className="font-medium">
-                                        {supporter.name}
+                                    <div className="flex items-center space-x-1">
+                                      <p className="font-semibold">
+                                        {supporter.name?.split(" ")[0] ??
+                                          "Kind stranger"}
                                       </p>
-                                      <p className="text-sm text-muted-foreground">
-                                        Supported {supporter.amount}
+                                      <p className="text-muted-foreground">
+                                        filled {supporter.amount} SOL
                                       </p>
                                     </div>
-                                    <span className="text-sm text-muted-foreground">
-                                      {supporter.timestamp}
-                                    </span>
                                   </div>
                                   <p className="mt-2">{supporter.message}</p>
                                 </div>
@@ -171,7 +169,7 @@ export default function ProfileContent({ profile }: ProfileContentProps) {
                       <Card>
                         <CardContent className="p-8 text-center text-muted-foreground">
                           No supporters yet. Be the first one to support{" "}
-                          {profile.name}!
+                          {profile.username}!
                         </CardContent>
                       </Card>
                     )}
@@ -192,7 +190,7 @@ export default function ProfileContent({ profile }: ProfileContentProps) {
                     <Card>
                       <CardContent className="p-8 text-center text-muted-foreground">
                         No posts yet. Check back later for updates from{" "}
-                        {profile.name}!
+                        {profile.username}!
                       </CardContent>
                     </Card>
                   </div>
