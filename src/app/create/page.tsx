@@ -10,8 +10,10 @@ import {
   Wallet2,
   ArrowRight,
   ArrowLeft,
-  LinkIcon,
   Loader2,
+  Instagram,
+  Twitter,
+  Globe,
 } from "lucide-react";
 import { useWallet } from "@solana/wallet-adapter-react";
 
@@ -31,8 +33,13 @@ import { WalletMultiButton } from "@solana/wallet-adapter-react-ui";
 
 const formSchema = z.object({
   username: z.string().min(3).max(50),
+  title: z.string().max(100).optional(),
   bio: z.string().max(160).optional(),
-  website: z.string().url().optional().or(z.literal("")),
+  socialLinks: z.object({
+    instagram: z.string().url().optional().or(z.literal("")),
+    twitter: z.string().url().optional().or(z.literal("")),
+    website: z.string().url().optional().or(z.literal("")),
+  }),
 });
 
 export default function CreateProfile() {
@@ -44,8 +51,13 @@ export default function CreateProfile() {
     resolver: zodResolver(formSchema),
     defaultValues: {
       username: "",
+      title: "",
       bio: "",
-      website: "",
+      socialLinks: {
+        instagram: "",
+        twitter: "",
+        website: "",
+      },
     },
   });
 
@@ -136,7 +148,7 @@ export default function CreateProfile() {
             <Form {...form}>
               <form
                 onSubmit={form.handleSubmit(onSubmit)}
-                className="space-y-6"
+                className="space-y-5"
               >
                 <FormField
                   control={form.control}
@@ -149,6 +161,25 @@ export default function CreateProfile() {
                       </FormControl>
                       <FormDescription>
                         This will be your public display name.
+                      </FormDescription>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name="title"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Title (Optional)</FormLabel>
+                      <FormControl>
+                        <Input
+                          placeholder="e.g. Digital Artist & NFT Creator"
+                          {...field}
+                        />
+                      </FormControl>
+                      <FormDescription>
+                        A short description of what you do.
                       </FormDescription>
                       <FormMessage />
                     </FormItem>
@@ -174,29 +205,68 @@ export default function CreateProfile() {
                     </FormItem>
                   )}
                 />
-                <FormField
-                  control={form.control}
-                  name="website"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Website or Social Link (Optional)</FormLabel>
-                      <FormControl>
-                        <div className="relative">
-                          <LinkIcon className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 transform text-muted-foreground" />
-                          <Input
-                            placeholder="https://your-website.com"
-                            className="pl-10"
-                            {...field}
-                          />
-                        </div>
-                      </FormControl>
-                      <FormDescription>
-                        Share your website or main social media profile.
-                      </FormDescription>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
+                <div className="space-y-2">
+                  <FormField
+                    control={form.control}
+                    name="socialLinks.website"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Website (Optional)</FormLabel>
+                        <FormControl>
+                          <div className="relative">
+                            <Globe className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 transform text-muted-foreground" />
+                            <Input
+                              placeholder="https://your-website.com"
+                              className="pl-10"
+                              {...field}
+                            />
+                          </div>
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                  <FormField
+                    control={form.control}
+                    name="socialLinks.instagram"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Instagram (Optional)</FormLabel>
+                        <FormControl>
+                          <div className="relative">
+                            <Instagram className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 transform text-muted-foreground" />
+                            <Input
+                              placeholder="https://instagram.com/yourusername"
+                              className="pl-10"
+                              {...field}
+                            />
+                          </div>
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                  <FormField
+                    control={form.control}
+                    name="socialLinks.twitter"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Twitter (Optional)</FormLabel>
+                        <FormControl>
+                          <div className="relative">
+                            <Twitter className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 transform text-muted-foreground" />
+                            <Input
+                              placeholder="https://twitter.com/yourusername"
+                              className="pl-10"
+                              {...field}
+                            />
+                          </div>
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                </div>
                 <Button type="submit" className="w-full" disabled={isCreating}>
                   {isCreating ? (
                     <>
