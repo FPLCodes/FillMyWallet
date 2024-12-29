@@ -32,10 +32,11 @@ export default function SupportForm({
         </CardTitle>
       </CardHeader>
       <CardContent>
-        <div className="space-y-6">
+        <div className="space-y-4">
           <RadioGroup
-            defaultValue="0.1"
-            className="mb-4"
+            value={
+              selectedAmount === "custom" ? "custom" : selectedAmount.toFixed(1)
+            } // Bind to selectedAmount
             onValueChange={(value) =>
               setSelectedAmount(
                 value === "custom" ? "custom" : parseFloat(value)
@@ -52,7 +53,7 @@ export default function SupportForm({
                   />
                   <Label
                     htmlFor={`amount-${amount.toFixed(1)}`}
-                    className="flex items-center justify-center rounded-md border-2 border-muted bg-card px-3 py-2 hover:border-primary peer-data-[state=checked]:bg-primary peer-data-[state=checked]:text-primary-foreground"
+                    className="flex items-center justify-center rounded-md border-2 border-muted bg-card px-3 py-2 cursor-pointer hover:border-primary peer-data-[state=checked]:bg-primary peer-data-[state=checked]:text-primary-foreground"
                   >
                     {amount.toFixed(1)}
                   </Label>
@@ -67,15 +68,15 @@ export default function SupportForm({
               />
               <Label
                 htmlFor="amount-custom"
-                className="flex items-center justify-center rounded-md border-2 border-muted bg-card px-3 py-2 hover:border-primary peer-data-[state=checked]:border-primary"
+                className="flex items-center justify-center rounded-md border-2 border-muted bg-card px-3 py-2 h-10 cursor-pointer hover:border-primary peer-data-[state=checked]:border-primary"
               >
                 {selectedAmount === "custom" ? (
                   <Input
                     type="text"
                     value={customAmount}
                     onChange={(e) => handleCustomAmountChange(e.target.value)}
-                    placeholder="Custom"
-                    className="w-20 border-none p-0 text-center focus-visible:ring-0"
+                    placeholder=""
+                    className="w-full border-none p-0 text-center focus-visible:ring-0 shadow-none"
                   />
                 ) : (
                   "Custom"
