@@ -1,7 +1,6 @@
 "use client";
 
 import { useState } from "react";
-import { motion } from "framer-motion";
 import { Instagram, Twitter, Globe } from "lucide-react";
 import Link from "next/link";
 
@@ -63,88 +62,83 @@ export default function ProfileContent({ profile }: ProfileContentProps) {
       <div className="max-w-7xl mx-auto px-4 py-8 -mt-20">
         <div className="grid gap-8 lg:grid-cols-3">
           <div className="lg:col-span-2">
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5 }}
-            >
-              {/* Profile Card */}
-              <Card className="mb-8 shadow-lg">
-                <CardContent className="p-6">
-                  <div className="flex flex-col sm:flex-row gap-6 items-start sm:items-center">
-                    <Avatar className="w-24 h-24 border-4 border-background">
-                      <AvatarImage src={profile.avatar} />
-                      <AvatarFallback>{profile.username[0]}</AvatarFallback>
-                    </Avatar>
-                    <div className="flex-1">
-                      <h1 className="text-2xl font-bold text-foreground">
-                        {profile.username}
-                      </h1>
-                      <p className="text-muted-foreground">{profile.title}</p>
-                      <div className="flex gap-4 mt-4">
-                        <Link
-                          href={profile.socialLinks.instagram}
-                          className="text-muted-foreground hover:text-primary"
-                        >
-                          <Instagram className="w-5 h-5" />
-                        </Link>
-                        <Link
-                          href={profile.socialLinks.twitter}
-                          className="text-muted-foreground hover:text-primary"
-                        >
-                          <Twitter className="w-5 h-5" />
-                        </Link>
-                        <Link
-                          href={profile.socialLinks.website}
-                          className="text-muted-foreground hover:text-primary"
-                        >
-                          <Globe className="w-5 h-5" />
-                        </Link>
-                      </div>
+            {/* Main Card */}
+            <Card className="shadow-lg">
+              <CardContent className="p-6">
+                {/* Profile Details */}
+                <div className="flex flex-col sm:flex-row gap-6 items-start sm:items-center">
+                  <Avatar className="w-24 h-24 border-4 border-background">
+                    <AvatarImage src={profile.avatar} />
+                    <AvatarFallback>{profile.username[0]}</AvatarFallback>
+                  </Avatar>
+                  <div className="flex-1">
+                    <h1 className="text-2xl font-bold text-foreground">
+                      {profile.username}
+                    </h1>
+                    <p className="text-muted-foreground">{profile.title}</p>
+                    <div className="flex gap-4 mt-4">
+                      <Link
+                        href={profile.socialLinks.instagram}
+                        className="text-muted-foreground hover:text-primary"
+                      >
+                        <Instagram className="w-5 h-5" />
+                      </Link>
+                      <Link
+                        href={profile.socialLinks.twitter}
+                        className="text-muted-foreground hover:text-primary"
+                      >
+                        <Twitter className="w-5 h-5" />
+                      </Link>
+                      <Link
+                        href={profile.socialLinks.website}
+                        className="text-muted-foreground hover:text-primary"
+                      >
+                        <Globe className="w-5 h-5" />
+                      </Link>
                     </div>
                   </div>
-                  <p className="mt-6 text-foreground">{profile.bio}</p>
-                </CardContent>
-              </Card>
+                </div>
+                <p className="mt-6 text-foreground">{profile.bio}</p>
 
-              {/* Support Form for smaller screens */}
-              <div className="lg:hidden mb-8">
-                <SupportForm
-                  profile={profile}
-                  selectedAmount={selectedAmount}
-                  setSelectedAmount={setSelectedAmount}
-                  customAmount={customAmount}
-                  handleCustomAmountChange={handleCustomAmountChange}
-                  displayAmount={displayAmount}
-                />
-              </div>
+                {/* Support Form for smaller screens */}
+                <div className="lg:hidden mt-8">
+                  <SupportForm
+                    profile={profile}
+                    selectedAmount={selectedAmount}
+                    setSelectedAmount={setSelectedAmount}
+                    customAmount={customAmount}
+                    handleCustomAmountChange={handleCustomAmountChange}
+                    displayAmount={displayAmount}
+                  />
+                </div>
 
-              {/* Tabs */}
-              <Tabs defaultValue="supporters" className="mt-8">
-                <TabsList className="w-full">
-                  <TabsTrigger value="supporters" className="flex-1">
-                    Supporters
-                  </TabsTrigger>
-                  <TabsTrigger value="posts" className="flex-1">
-                    Posts
-                  </TabsTrigger>
-                </TabsList>
-                <TabsContent value="supporters">
-                  <div className="mt-4">
-                    <h2 className="text-xl font-semibold mb-4">
-                      Recent Supporters
-                    </h2>
-                    {visibleSupporters.length > 0 ? (
-                      <div className="space-y-4">
-                        {visibleSupporters.map((supporter) => (
-                          <Card key={supporter.id}>
-                            <CardContent className="p-4">
+                <div className="my-6" />
+
+                {/* Tabs */}
+                <Tabs defaultValue="supporters">
+                  <TabsList className="w-full">
+                    <TabsTrigger value="supporters" className="flex-1">
+                      Supporters
+                    </TabsTrigger>
+                    <TabsTrigger value="posts" className="flex-1">
+                      Posts
+                    </TabsTrigger>
+                  </TabsList>
+                  <TabsContent value="supporters">
+                    <div className="mt-4">
+                      <h2 className="text-xl font-semibold mb-4">
+                        Recent Supporters
+                      </h2>
+                      {visibleSupporters.length > 0 ? (
+                        <div className="space-y-6 text-sm">
+                          {visibleSupporters.map((supporter) => (
+                            <div key={supporter.id}>
                               <div
                                 className={`flex gap-4 ${
                                   !supporter.message ? "items-center" : ""
                                 }`}
                               >
-                                <Avatar>
+                                <Avatar className="w-8 h-8 rounded-sm">
                                   <AvatarImage src={supporter.avatar} />
                                   <AvatarFallback>
                                     {supporter.name?.[0] ?? "U"}
@@ -163,46 +157,44 @@ export default function ProfileContent({ profile }: ProfileContentProps) {
                                     </div>
                                   </div>
                                   {supporter.message ? (
-                                    <p className="mt-2">{supporter.message}</p>
+                                    <p className="mt-2 bg-primary/10 rounded-md p-3">
+                                      {supporter.message}
+                                    </p>
                                   ) : null}
                                 </div>
                               </div>
-                            </CardContent>
-                          </Card>
-                        ))}
-                      </div>
-                    ) : (
-                      <Card>
-                        <CardContent className="p-8 text-center text-muted-foreground">
+                            </div>
+                          ))}
+                        </div>
+                      ) : (
+                        <p className="text-center text-muted-foreground">
                           No supporters yet. Be the first one to support{" "}
                           {profile.username}!
-                        </CardContent>
-                      </Card>
-                    )}
-                    {profile.supporters.length > 3 && !showAllSupporters && (
-                      <Button
-                        variant="outline"
-                        className="mt-4 w-full"
-                        onClick={() => setShowAllSupporters(true)}
-                      >
-                        Show More
-                      </Button>
-                    )}
-                  </div>
-                </TabsContent>
-                <TabsContent value="posts">
-                  <div className="mt-4">
-                    <h2 className="text-xl font-semibold mb-4">Posts</h2>
-                    <Card>
-                      <CardContent className="p-8 text-center text-muted-foreground">
+                        </p>
+                      )}
+                      {profile.supporters.length > 3 && !showAllSupporters && (
+                        <Button
+                          variant="outline"
+                          className="mt-4 w-full"
+                          onClick={() => setShowAllSupporters(true)}
+                        >
+                          Show More
+                        </Button>
+                      )}
+                    </div>
+                  </TabsContent>
+                  <TabsContent value="posts">
+                    <div className="mt-4">
+                      <h2 className="text-xl font-semibold mb-4">Posts</h2>
+                      <p className="text-center text-muted-foreground">
                         No posts yet. Check back later for updates from{" "}
                         {profile.username}!
-                      </CardContent>
-                    </Card>
-                  </div>
-                </TabsContent>
-              </Tabs>
-            </motion.div>
+                      </p>
+                    </div>
+                  </TabsContent>
+                </Tabs>
+              </CardContent>
+            </Card>
           </div>
 
           {/* Support Form for larger screens */}
