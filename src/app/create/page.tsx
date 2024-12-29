@@ -12,7 +12,7 @@ import {
   ArrowLeft,
   Loader2,
   Instagram,
-  Twitter,
+  XIcon,
   Globe,
 } from "lucide-react";
 import { useWallet } from "@solana/wallet-adapter-react";
@@ -35,11 +35,9 @@ const formSchema = z.object({
   username: z.string().min(3).max(50),
   title: z.string().max(100).optional(),
   bio: z.string().max(160).optional(),
-  socialLinks: z.object({
-    instagram: z.string().url().optional().or(z.literal("")),
-    twitter: z.string().url().optional().or(z.literal("")),
-    website: z.string().url().optional().or(z.literal("")),
-  }),
+  website: z.string().url().optional().or(z.literal("")),
+  instagram: z.string().url().optional().or(z.literal("")),
+  x: z.string().url().optional().or(z.literal("")),
 });
 
 export default function CreateProfile() {
@@ -53,37 +51,24 @@ export default function CreateProfile() {
       username: "",
       title: "",
       bio: "",
-      socialLinks: {
-        instagram: "",
-        twitter: "",
-        website: "",
-      },
+      website: "",
+      instagram: "",
+      x: "",
     },
   });
 
   useEffect(() => {
     if (connected && publicKey) {
       console.log("Connected wallet:", publicKey.toBase58());
-
       // TODO: Implement check with backend
-      // If user exists, redirect to dashboard
-      // Example:
-      // checkUserExists(publicKey.toBase58()).then(exists => {
-      //   if (exists) window.location.href = '/dashboard'
-      // })
     }
   }, [connected, publicKey]);
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
     setIsCreating(true);
     console.log(values);
-
-    // Simulate API call
     await new Promise((resolve) => setTimeout(resolve, 2000));
-
     // TODO: Implement actual profile creation logic here
-
-    // Redirect to profile page
     window.location.href = "/profile";
   }
 
@@ -148,7 +133,7 @@ export default function CreateProfile() {
             <Form {...form}>
               <form
                 onSubmit={form.handleSubmit(onSubmit)}
-                className="space-y-5"
+                className="space-y-4"
               >
                 <FormField
                   control={form.control}
@@ -157,7 +142,11 @@ export default function CreateProfile() {
                     <FormItem>
                       <FormLabel>Username</FormLabel>
                       <FormControl>
-                        <Input placeholder="your-awesome-name" {...field} />
+                        <Input
+                          placeholder="your-awesome-name"
+                          className="placeholder:text-muted-foreground/50"
+                          {...field}
+                        />
                       </FormControl>
                       <FormDescription>
                         This will be your public display name.
@@ -171,10 +160,16 @@ export default function CreateProfile() {
                   name="title"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Title (Optional)</FormLabel>
+                      <FormLabel>
+                        Title{" "}
+                        <span className="text-xs text-muted-foreground">
+                          (optional)
+                        </span>
+                      </FormLabel>
                       <FormControl>
                         <Input
                           placeholder="e.g. Digital Artist & NFT Creator"
+                          className="placeholder:text-muted-foreground/50"
                           {...field}
                         />
                       </FormControl>
@@ -190,11 +185,16 @@ export default function CreateProfile() {
                   name="bio"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Bio (Optional)</FormLabel>
+                      <FormLabel>
+                        Bio{" "}
+                        <span className="text-xs text-muted-foreground">
+                          (optional)
+                        </span>
+                      </FormLabel>
                       <FormControl>
                         <Textarea
                           placeholder="Tell your supporters about yourself"
-                          className="resize-none"
+                          className="resize-none placeholder:text-muted-foreground/50"
                           {...field}
                         />
                       </FormControl>
@@ -208,16 +208,21 @@ export default function CreateProfile() {
                 <div className="space-y-2">
                   <FormField
                     control={form.control}
-                    name="socialLinks.website"
+                    name="website"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel>Website (Optional)</FormLabel>
+                        <FormLabel>
+                          Website and Social Links{" "}
+                          <span className="text-xs text-muted-foreground">
+                            (optional)
+                          </span>
+                        </FormLabel>
                         <FormControl>
                           <div className="relative">
                             <Globe className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 transform text-muted-foreground" />
                             <Input
                               placeholder="https://your-website.com"
-                              className="pl-10"
+                              className="pl-10 placeholder:text-muted-foreground/50"
                               {...field}
                             />
                           </div>
@@ -226,46 +231,46 @@ export default function CreateProfile() {
                       </FormItem>
                     )}
                   />
-                  <FormField
-                    control={form.control}
-                    name="socialLinks.instagram"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>Instagram (Optional)</FormLabel>
-                        <FormControl>
-                          <div className="relative">
-                            <Instagram className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 transform text-muted-foreground" />
-                            <Input
-                              placeholder="https://instagram.com/yourusername"
-                              className="pl-10"
-                              {...field}
-                            />
-                          </div>
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                  <FormField
-                    control={form.control}
-                    name="socialLinks.twitter"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>Twitter (Optional)</FormLabel>
-                        <FormControl>
-                          <div className="relative">
-                            <Twitter className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 transform text-muted-foreground" />
-                            <Input
-                              placeholder="https://twitter.com/yourusername"
-                              className="pl-10"
-                              {...field}
-                            />
-                          </div>
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
+                  <div className="space-y-2">
+                    <FormField
+                      control={form.control}
+                      name="instagram"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormControl>
+                            <div className="relative">
+                              <Instagram className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 transform text-muted-foreground" />
+                              <Input
+                                placeholder="https://instagram.com/yourusername"
+                                className="pl-10 pr-10 placeholder:text-muted-foreground/50"
+                                {...field}
+                              />
+                            </div>
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                    <FormField
+                      control={form.control}
+                      name="x"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormControl>
+                            <div className="relative">
+                              <XIcon className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 transform text-muted-foreground" />
+                              <Input
+                                placeholder="https://x.com/yourusername"
+                                className="pl-10 pr-10 placeholder:text-muted-foreground/50"
+                                {...field}
+                              />
+                            </div>
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                  </div>
                 </div>
                 <Button type="submit" className="w-full" disabled={isCreating}>
                   {isCreating ? (
