@@ -16,6 +16,9 @@ import {
   Globe,
 } from "lucide-react";
 import { useWallet } from "@solana/wallet-adapter-react";
+import { toast } from "@/hooks/use-toast";
+import { useProfile } from "./hooks/useProfile";
+import { redirect } from "next/navigation";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -42,8 +45,8 @@ const formSchema = z.object({
 
 export default function CreateProfile() {
   const [step, setStep] = useState(1);
-  const [isCreating, setIsCreating] = useState(false);
   const { connected, publicKey } = useWallet();
+  const { isCreating, error, createProfile, checkProfile } = useProfile();
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -58,18 +61,40 @@ export default function CreateProfile() {
   });
 
   useEffect(() => {
-    if (connected && publicKey) {
-      console.log("Connected wallet:", publicKey.toBase58());
-      // TODO: Implement check with backend
-    }
-  }, [connected, publicKey]);
+    const fetchExistingProfile = async () => {
+      if (connected && publicKey) {
+        const username = await checkProfile(publicKey.toBase58());
+        if (username) {
+          redirect(`/${username}`);
+        }
+      }
+    };
+
+    fetchExistingProfile();
+  }, [connected, publicKey, checkProfile]);
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
-    setIsCreating(true);
-    console.log(values);
-    await new Promise((resolve) => setTimeout(resolve, 2000));
-    // TODO: Implement actual profile creation logic here
-    window.location.href = "/profile";
+    if (!publicKey) {
+      toast({
+        title: "Error",
+        description: "Please connect your wallet.",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    const walletAddress = publicKey.toBase58();
+    const username = await createProfile(walletAddress, values);
+
+    if (username) {
+      toast({
+        title: "Success",
+        description:
+          "Profile created successfully! Redirecting to your profile...",
+        duration: 2000,
+      });
+      redirect(`/${username}`);
+    }
   }
 
   const fadeInUp = {
@@ -143,7 +168,7 @@ export default function CreateProfile() {
                       <FormLabel>Username</FormLabel>
                       <FormControl>
                         <Input
-                          placeholder="your-awesome-name"
+                          placeholder="web3dev"
                           className="placeholder:text-muted-foreground/50"
                           {...field}
                         />
@@ -168,7 +193,7 @@ export default function CreateProfile() {
                       </FormLabel>
                       <FormControl>
                         <Input
-                          placeholder="e.g. Digital Artist & NFT Creator"
+                          placeholder="Blockchain Developer & Educator"
                           className="placeholder:text-muted-foreground/50"
                           {...field}
                         />
@@ -193,9 +218,10 @@ export default function CreateProfile() {
                       </FormLabel>
                       <FormControl>
                         <Textarea
-                          placeholder="Tell your supporters about yourself"
-                          className="resize-none placeholder:text-muted-foreground/50"
+                          placeholder="Teaching others about blockchain technology and smart contract development."
+                          className="placeholder:text-muted-foreground/50"
                           {...field}
+                          maxLength={160}
                         />
                       </FormControl>
                       <FormDescription>
@@ -222,7 +248,7 @@ export default function CreateProfile() {
                             <Globe className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 transform text-muted-foreground" />
                             <Input
                               placeholder="https://your-website.com"
-                              className="pl-10 placeholder:text-muted-foreground/50"
+                              className="pl-10 pr-10 placeholder:text-muted-foreground/50"
                               {...field}
                             />
                           </div>
@@ -231,46 +257,44 @@ export default function CreateProfile() {
                       </FormItem>
                     )}
                   />
-                  <div className="space-y-2">
-                    <FormField
-                      control={form.control}
-                      name="instagram"
-                      render={({ field }) => (
-                        <FormItem>
+                  <FormField
+                    control={form.control}
+                    name="instagram"
+                    render={({ field }) => (
+                      <FormItem>
+                        <div className="relative">
+                          <Instagram className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 transform text-muted-foreground" />
                           <FormControl>
-                            <div className="relative">
-                              <Instagram className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 transform text-muted-foreground" />
-                              <Input
-                                placeholder="https://instagram.com/yourusername"
-                                className="pl-10 pr-10 placeholder:text-muted-foreground/50"
-                                {...field}
-                              />
-                            </div>
+                            <Input
+                              placeholder="https://instagram.com/your-username"
+                              className="pl-10 pr-10  placeholder:text-muted-foreground/50"
+                              {...field}
+                            />
                           </FormControl>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
-                    <FormField
-                      control={form.control}
-                      name="x"
-                      render={({ field }) => (
-                        <FormItem>
+                        </div>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                  <FormField
+                    control={form.control}
+                    name="x"
+                    render={({ field }) => (
+                      <FormItem>
+                        <div className="relative">
+                          <XIcon className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 transform text-muted-foreground" />
                           <FormControl>
-                            <div className="relative">
-                              <XIcon className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 transform text-muted-foreground" />
-                              <Input
-                                placeholder="https://x.com/yourusername"
-                                className="pl-10 pr-10 placeholder:text-muted-foreground/50"
-                                {...field}
-                              />
-                            </div>
+                            <Input
+                              placeholder="https://x.com"
+                              className="pl-10 pr-10 placeholder:text-muted-foreground/50"
+                              {...field}
+                            />
                           </FormControl>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
-                  </div>
+                        </div>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
                 </div>
                 <Button type="submit" className="w-full" disabled={isCreating}>
                   {isCreating ? (
@@ -282,6 +306,7 @@ export default function CreateProfile() {
                     "Create Profile"
                   )}
                 </Button>
+                {error && <p className="text-red-500 mt-4">{error}</p>}
               </form>
             </Form>
           </motion.div>
