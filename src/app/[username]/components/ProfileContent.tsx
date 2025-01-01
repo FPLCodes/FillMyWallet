@@ -27,7 +27,9 @@ export default function ProfileContent({ profile }: ProfileContentProps) {
   const [selectedAmount, setSelectedAmount] = useState<number | "custom">(0.1);
   const [customAmount, setCustomAmount] = useState<string>("");
   const [showAllSupporters, setShowAllSupporters] = useState(false);
-  const [selectedGradient, setSelectedGradient] = useState(gradients[0]);
+  const [selectedGradient, setSelectedGradient] = useState(
+    gradients[(profile.coverImage ?? 0) % gradients.length]
+  );
 
   const handleCustomAmountChange = (value: string) => {
     if (value === "" || /^\d*\.?\d*$/.test(value)) {
@@ -68,7 +70,6 @@ export default function ProfileContent({ profile }: ProfileContentProps) {
                 {/* Profile Details */}
                 <div className="flex flex-col sm:flex-row gap-6 items-start sm:items-center">
                   <Avatar className="w-24 h-24 border-4 border-background">
-                    <AvatarImage src={profile.avatar} />
                     <AvatarFallback>{profile.username[0]}</AvatarFallback>
                   </Avatar>
                   <div className="flex-1">
@@ -78,19 +79,19 @@ export default function ProfileContent({ profile }: ProfileContentProps) {
                     <p className="text-muted-foreground">{profile.title}</p>
                     <div className="flex gap-4 mt-4">
                       <Link
-                        href={profile.socialLinks.instagram}
+                        href={profile.instagram || "#"}
                         className="text-muted-foreground hover:text-primary"
                       >
                         <Instagram className="w-5 h-5" />
                       </Link>
                       <Link
-                        href={profile.socialLinks.twitter}
+                        href={profile.twitter || "#"}
                         className="text-muted-foreground hover:text-primary"
                       >
                         <Twitter className="w-5 h-5" />
                       </Link>
                       <Link
-                        href={profile.socialLinks.website}
+                        href={profile.website || "#"}
                         className="text-muted-foreground hover:text-primary"
                       >
                         <Globe className="w-5 h-5" />
@@ -131,15 +132,19 @@ export default function ProfileContent({ profile }: ProfileContentProps) {
                       </h2>
                       {visibleSupporters.length > 0 ? (
                         <div className="space-y-6 text-sm">
-                          {visibleSupporters.map((supporter) => (
-                            <div key={supporter.id}>
+                          {visibleSupporters.map((supporter, index) => (
+                            <div key={`${supporter.id}-${index}`}>
                               <div
                                 className={`flex gap-4 ${
                                   !supporter.message ? "items-center" : ""
                                 }`}
                               >
                                 <Avatar className="w-8 h-8 rounded-sm">
-                                  <AvatarImage src={supporter.avatar} />
+                                  <AvatarImage
+                                    src={`https://api.dicebear.com/9.x/fun-emoji/svg?seed=${
+                                      supporter.amount + index
+                                    }eyes=closed,closed2,cute,glasses,pissed,plain,sad,shades,sleepClose,stars,wink,wink2,crying&mouth=cute,lilSmile,plain,shout,sick,smileLol,smileTeeth,tongueOut,wideSmile`}
+                                  />
                                   <AvatarFallback>
                                     {supporter.name?.[0] ?? "U"}
                                   </AvatarFallback>
