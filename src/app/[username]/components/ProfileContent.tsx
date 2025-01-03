@@ -11,6 +11,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Profile } from "../page";
 import SupportForm from "./SupportForm";
 import GradientSelector from "./GradientSelector";
+import { useWallet } from "@solana/wallet-adapter-react";
 
 interface ProfileContentProps {
   profile: Profile;
@@ -30,6 +31,9 @@ export default function ProfileContent({ profile }: ProfileContentProps) {
   const [selectedGradient, setSelectedGradient] = useState(
     gradients[(profile.coverImage ?? 0) % gradients.length]
   );
+  const { publicKey } = useWallet();
+  const isOwnProfile =
+    publicKey && publicKey.toBase58() === profile.walletAddress;
 
   const handleCustomAmountChange = (value: string) => {
     if (value === "" || /^\d*\.?\d*$/.test(value)) {
@@ -62,8 +66,12 @@ export default function ProfileContent({ profile }: ProfileContentProps) {
       </div>
 
       <div className="max-w-7xl mx-auto px-4 py-8 -mt-20">
-        <div className="grid gap-8 lg:grid-cols-3">
-          <div className="lg:col-span-2">
+        <div
+          className={`grid gap-8 ${
+            isOwnProfile ? "lg:grid-cols-1" : "lg:grid-cols-3"
+          }`}
+        >
+          <div className={isOwnProfile ? "w-full" : "lg:col-span-2"}>
             {/* Main Card */}
             <Card className="shadow-lg">
               <CardContent className="p-6">
@@ -102,16 +110,18 @@ export default function ProfileContent({ profile }: ProfileContentProps) {
                 <p className="mt-6 text-foreground">{profile.bio}</p>
 
                 {/* Support Form for smaller screens */}
-                <div className="lg:hidden mt-8">
-                  <SupportForm
-                    profile={profile}
-                    selectedAmount={selectedAmount}
-                    setSelectedAmount={setSelectedAmount}
-                    customAmount={customAmount}
-                    handleCustomAmountChange={handleCustomAmountChange}
-                    displayAmount={displayAmount}
-                  />
-                </div>
+                {!isOwnProfile && (
+                  <div className="lg:hidden mt-8">
+                    <SupportForm
+                      profile={profile}
+                      selectedAmount={selectedAmount}
+                      setSelectedAmount={setSelectedAmount}
+                      customAmount={customAmount}
+                      handleCustomAmountChange={handleCustomAmountChange}
+                      displayAmount={displayAmount}
+                    />
+                  </div>
+                )}
 
                 <div className="my-6" />
 
@@ -203,16 +213,18 @@ export default function ProfileContent({ profile }: ProfileContentProps) {
           </div>
 
           {/* Support Form for larger screens */}
-          <div className="hidden lg:block lg:col-span-1">
-            <SupportForm
-              profile={profile}
-              selectedAmount={selectedAmount}
-              setSelectedAmount={setSelectedAmount}
-              customAmount={customAmount}
-              handleCustomAmountChange={handleCustomAmountChange}
-              displayAmount={displayAmount}
-            />
-          </div>
+          {!isOwnProfile && (
+            <div className="hidden lg:block lg:col-span-1">
+              <SupportForm
+                profile={profile}
+                selectedAmount={selectedAmount}
+                setSelectedAmount={setSelectedAmount}
+                customAmount={customAmount}
+                handleCustomAmountChange={handleCustomAmountChange}
+                displayAmount={displayAmount}
+              />
+            </div>
+          )}
         </div>
       </div>
     </div>

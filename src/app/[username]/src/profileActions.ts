@@ -30,6 +30,7 @@ export async function getProfileAction(
 
     const profileData = profileDoc.data();
     return {
+      walletAddress,
       username: profileData.username,
       title: profileData.title || "",
       bio: profileData.bio || "",
