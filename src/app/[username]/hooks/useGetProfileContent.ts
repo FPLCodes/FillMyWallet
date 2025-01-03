@@ -1,6 +1,6 @@
 import { useState, useMemo, useCallback } from "react";
 import { useWallet } from "@solana/wallet-adapter-react";
-import { Profile } from "../page";
+import { Profile } from "../src/profileActions";
 import { db } from "@/lib/firebase";
 import { doc, getDoc } from "firebase/firestore";
 
@@ -51,6 +51,7 @@ export const useGetProfileContent = (profile: Profile) => {
       );
       if (profileDoc.exists()) {
         const profileData = profileDoc.data();
+        console.log("Profile data:", profileData);
         setSupporters(profileData.supporters || []);
       }
     } catch (error) {

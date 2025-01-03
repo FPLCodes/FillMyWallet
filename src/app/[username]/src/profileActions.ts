@@ -2,7 +2,25 @@
 
 import { db } from "@/lib/firebase";
 import { doc, getDoc } from "firebase/firestore";
-import { Profile } from "@/app/[username]/page";
+
+export interface Profile {
+  walletAddress: string;
+  username: string;
+  title?: string;
+  bio?: string;
+  instagram?: string;
+  twitter?: string;
+  website?: string;
+  coverImage?: number;
+  supporters?: {
+    name: string;
+    amount: number;
+    message: string;
+    signature: string;
+    avatar: string;
+  }[];
+  uniqueSupportersCount?: number;
+}
 
 export async function getProfileAction(
   username: string
@@ -39,6 +57,7 @@ export async function getProfileAction(
       website: profileData.website || "",
       coverImage: profileData.coverImage || 0,
       supporters: profileData.supporters || [],
+      uniqueSupportersCount: profileData.uniqueSupporters.length || 0,
     };
   } catch (error) {
     console.error("Error fetching profile:", error);

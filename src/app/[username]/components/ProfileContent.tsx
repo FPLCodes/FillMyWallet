@@ -64,9 +64,15 @@ export default function ProfileContent({ profile }: ProfileContentProps) {
                     </AvatarFallback>
                   </Avatar>
                   <div className="flex-1">
-                    <h1 className="text-2xl font-bold text-foreground">
-                      {profile.username}
-                    </h1>
+                    <div className="flex space-x-2 items-center">
+                      <h1 className="text-2xl font-bold text-foreground">
+                        {profile.username}
+                      </h1>
+                      <p className="text-primary/80 font-medium">
+                        - {profile.uniqueSupportersCount} supporter{" "}
+                        {profile.uniqueSupportersCount === 1 ? "" : "s"}
+                      </p>
+                    </div>
                     <p className="text-muted-foreground/60 font-semibold">
                       {profile.title}
                     </p>
@@ -138,46 +144,43 @@ export default function ProfileContent({ profile }: ProfileContentProps) {
                       {visibleSupporters.length > 0 ? (
                         <div className="space-y-6 text-sm">
                           {visibleSupporters.map((supporter, index) => (
-                            <div key={index}>
-                              <div
-                                className={`flex gap-4 ${
-                                  !supporter.message ? "items-center" : ""
-                                }`}
-                              >
-                                <Avatar className="w-8 h-8 rounded-sm">
-                                  <AvatarImage
-                                    src={`https://api.dicebear.com/9.x/fun-emoji/svg?seed=${
-                                      supporter.amount + index
-                                    }eyes=closed,closed2,cute,glasses,pissed,plain,sad,shades,sleepClose,stars,wink,wink2,crying&mouth=cute,lilSmile,plain,shout,sick,smileLol,smileTeeth,tongueOut,wideSmile`}
-                                  />
-                                  <AvatarFallback>
-                                    {supporter.name?.[0] ?? "U"}
-                                  </AvatarFallback>
-                                </Avatar>
-                                <div className="flex-1">
-                                  <div className="flex justify-between items-start">
-                                    <div className="flex items-center space-x-1">
-                                      <p className="font-semibold">
-                                        {supporter.name === ""
-                                          ? "Kind stranger"
-                                          : supporter.name}
-                                      </p>
-                                      <p>filled</p>
-                                      <a
-                                        className="text-primary/80 transition-colors hover:text-primary cursor-pointer"
-                                        href={`https://explorer.solana.com/tx/${supporter.signature}?cluster=devnet`}
-                                        target="_blank"
-                                      >
-                                        {supporter.amount} SOL
-                                      </a>
-                                    </div>
-                                  </div>
-                                  {supporter.message ? (
-                                    <p className="mt-2 bg-primary/10 rounded-md p-3">
-                                      {supporter.message}
+                            <div
+                              key={index}
+                              className={`flex gap-4 ${
+                                !supporter.message ? "items-center" : ""
+                              }`}
+                            >
+                              <Avatar className="w-8 h-8 rounded-sm">
+                                <AvatarImage
+                                  src={`https://api.dicebear.com/9.x/fun-emoji/svg?seed=${supporter.signature}eyes=closed,closed2,cute,glasses,pissed,plain,sad,shades,sleepClose,stars,wink,wink2,crying&mouth=cute,lilSmile,plain,shout,sick,smileLol,smileTeeth,tongueOut,wideSmile`}
+                                />
+                                <AvatarFallback>
+                                  {supporter.name?.[0] ?? "U"}
+                                </AvatarFallback>
+                              </Avatar>
+                              <div className="flex-1">
+                                <div className="flex justify-between items-start">
+                                  <div className="flex items-center space-x-1">
+                                    <p className="font-semibold">
+                                      {supporter.name === ""
+                                        ? "Kind stranger"
+                                        : supporter.name}
                                     </p>
-                                  ) : null}
+                                    <p>filled</p>
+                                    <a
+                                      className="text-primary/80 transition-colors hover:text-primary cursor-pointer"
+                                      href={`https://explorer.solana.com/tx/${supporter.signature}?cluster=devnet`}
+                                      target="_blank"
+                                    >
+                                      {supporter.amount} SOL
+                                    </a>
+                                  </div>
                                 </div>
+                                {supporter.message ? (
+                                  <p className="mt-2 bg-primary/10 rounded-md p-3">
+                                    {supporter.message}
+                                  </p>
+                                ) : null}
                               </div>
                             </div>
                           ))}
@@ -192,7 +195,7 @@ export default function ProfileContent({ profile }: ProfileContentProps) {
                         !showAllSupporters && (
                           <Button
                             variant="outline"
-                            className="mt-4 w-full"
+                            className="mt-4 w-full transition-colors hover:bg-primary/10 hover:text-black"
                             onClick={() => setShowAllSupporters(true)}
                           >
                             Show More

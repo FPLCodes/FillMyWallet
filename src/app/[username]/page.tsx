@@ -3,24 +3,6 @@ import ProfileContent from "./components/ProfileContent";
 import Link from "next/link";
 import { getProfileAction } from "./src/profileActions";
 
-export interface Profile {
-  walletAddress: string;
-  username: string;
-  title?: string;
-  bio?: string;
-  instagram?: string;
-  twitter?: string;
-  website?: string;
-  coverImage?: number;
-  supporters?: {
-    name: string;
-    amount: number;
-    message: string;
-    signature: string;
-    avatar: string;
-  }[];
-}
-
 export default async function ProfilePage({
   params,
 }: {
