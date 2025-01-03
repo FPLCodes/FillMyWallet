@@ -26,10 +26,10 @@ export const useGetProfileContent = (profile: Profile) => {
     [publicKey, profile.walletAddress]
   );
 
-  const visibleSupporters = useMemo(
-    () => (showAllSupporters ? supporters : supporters.slice(0, 3)),
-    [showAllSupporters, supporters]
-  );
+  const visibleSupporters = useMemo(() => {
+    const sortedSupporters = [...(supporters || [])].reverse(); // Reverse the list
+    return showAllSupporters ? sortedSupporters : sortedSupporters.slice(0, 3);
+  }, [showAllSupporters, supporters]);
 
   const displayAmount = useMemo(() => {
     if (selectedAmount === "custom") {
