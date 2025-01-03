@@ -69,7 +69,7 @@ export default function ProfileContent({ profile }: ProfileContentProps) {
                         {profile.username}
                       </h1>
                       <p className="text-primary/80 font-medium">
-                        - {profile.uniqueSupportersCount} supporter{" "}
+                        - {profile.uniqueSupportersCount} supporter
                         {profile.uniqueSupportersCount === 1 ? "" : "s"}
                       </p>
                     </div>
