@@ -23,7 +23,6 @@ export async function createProfileAction(
     await setDoc(doc(db, "profiles", walletAddress), {
       ...profileData,
       walletAddress,
-      createdAt: new Date().toISOString(),
     });
 
     return profileData.username;

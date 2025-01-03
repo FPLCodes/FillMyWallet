@@ -83,8 +83,16 @@ export default function CreateProfile() {
       return;
     }
 
+    const profile = {
+      ...values,
+      walletAddress: publicKey.toBase58(),
+      coverImage: Math.floor(Math.random() * 4),
+      supporters: [],
+      uniqueSupporters: [],
+    };
+
     const walletAddress = publicKey.toBase58();
-    const username = await createProfile(walletAddress, values);
+    const username = await createProfile(walletAddress, profile);
 
     if (username) {
       toast({
