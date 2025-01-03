@@ -158,9 +158,14 @@ export default function ProfileContent({ profile }: ProfileContentProps) {
                                           ? "Kind stranger"
                                           : supporter.name}
                                       </p>
-                                      <p className="text-muted-foreground">
-                                        filled {supporter.amount} SOL
-                                      </p>
+                                      <p>filled</p>
+                                      <a
+                                        className="text-primary/80 transition-colors hover:text-primary cursor-pointer"
+                                        href={`https://explorer.solana.com/tx/${supporter.signature}?cluster=devnet`}
+                                        target="_blank"
+                                      >
+                                        {supporter.amount} SOL
+                                      </a>
                                     </div>
                                   </div>
                                   {supporter.message ? (

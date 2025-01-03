@@ -13,10 +13,10 @@ export interface Profile {
   website?: string;
   coverImage?: number;
   supporters?: {
-    id: number;
     name: string;
     amount: number;
     message: string;
+    signature: string;
     avatar: string;
   }[];
 }
