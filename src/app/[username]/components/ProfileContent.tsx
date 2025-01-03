@@ -67,12 +67,14 @@ export default function ProfileContent({ profile }: ProfileContentProps) {
                     <h1 className="text-2xl font-bold text-foreground">
                       {profile.username}
                     </h1>
-                    <p className="text-muted-foreground">{profile.title}</p>
+                    <p className="text-muted-foreground/60 font-semibold">
+                      {profile.title}
+                    </p>
                     <div className="flex gap-4 mt-4">
                       {/* Social Links */}
                       {profile.instagram && (
                         <Link
-                          href={profile.instagram || "#"}
+                          href={profile.instagram}
                           className="text-muted-foreground hover:text-primary"
                         >
                           <Instagram className="w-5 h-5" />
@@ -80,7 +82,7 @@ export default function ProfileContent({ profile }: ProfileContentProps) {
                       )}
                       {profile.twitter && (
                         <Link
-                          href={profile.twitter || "#"}
+                          href={profile.twitter}
                           className="text-muted-foreground hover:text-primary"
                         >
                           <Twitter className="w-5 h-5" />
@@ -88,7 +90,7 @@ export default function ProfileContent({ profile }: ProfileContentProps) {
                       )}
                       {profile.website && (
                         <Link
-                          href={profile.website || "#"}
+                          href={profile.website}
                           className="text-muted-foreground hover:text-primary"
                         >
                           <Globe className="w-5 h-5" />
@@ -97,7 +99,9 @@ export default function ProfileContent({ profile }: ProfileContentProps) {
                     </div>
                   </div>
                 </div>
-                <p className="mt-6 text-foreground">{profile.bio}</p>
+                <p className="mt-6 text-muted-foreground bg-muted rounded-lg p-3">
+                  {profile.bio}
+                </p>
 
                 {/* Support Form for smaller screens */}
                 {!isOwnProfile && (
@@ -134,7 +138,7 @@ export default function ProfileContent({ profile }: ProfileContentProps) {
                       {visibleSupporters.length > 0 ? (
                         <div className="space-y-6 text-sm">
                           {visibleSupporters.map((supporter, index) => (
-                            <div key={`${supporter.id}-${index}`}>
+                            <div key={index}>
                               <div
                                 className={`flex gap-4 ${
                                   !supporter.message ? "items-center" : ""

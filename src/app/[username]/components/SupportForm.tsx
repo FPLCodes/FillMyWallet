@@ -80,7 +80,7 @@ export default function SupportForm({
                   />
                   <Label
                     htmlFor={`amount-${amount.toFixed(1)}`}
-                    className="flex items-center justify-center rounded-md border-2 border-muted bg-card px-3 py-2 cursor-pointer hover:border-primary peer-data-[state=checked]:bg-primary peer-data-[state=checked]:text-primary-foreground"
+                    className="flex items-center justify-center transition-colors rounded-md border-2 border-muted bg-card px-3 py-2 cursor-pointer hover:border-primary peer-data-[state=checked]:bg-primary peer-data-[state=checked]:text-primary-foreground"
                   >
                     {amount.toFixed(1)}
                   </Label>
@@ -95,7 +95,7 @@ export default function SupportForm({
               />
               <Label
                 htmlFor="amount-custom"
-                className="flex items-center justify-center rounded-md border-2 border-muted bg-card px-3 py-2 h-10 cursor-pointer hover:border-primary peer-data-[state=checked]:border-primary"
+                className="flex items-center justify-center transition-colors rounded-md border-2 border-muted bg-card px-3 py-2 h-10 cursor-pointer hover:border-primary peer-data-[state=checked]:border-primary"
               >
                 {selectedAmount === "custom" ? (
                   <Input
@@ -116,16 +116,17 @@ export default function SupportForm({
             placeholder="Name (optional)"
             value={name}
             onChange={(e) => setName(e.target.value)}
+            className="focus-visible:ring-0"
           />
           <Textarea
             placeholder="Leave a message (optional)"
-            className="resize-none"
+            className="resize-none focus-visible:ring-0"
             rows={4}
             value={message}
             onChange={(e) => setMessage(e.target.value)}
           />
           <Button
-            className="w-full bg-primary hover:bg-primary/90"
+            className="w-full border-secondary border-2 bg-primary transition-colors hover:bg-primary/90"
             onClick={handleSupportClick}
             disabled={isProcessing}
           >
