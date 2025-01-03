@@ -68,24 +68,31 @@ export default function ProfileContent({ profile }: ProfileContentProps) {
                     </h1>
                     <p className="text-muted-foreground">{profile.title}</p>
                     <div className="flex gap-4 mt-4">
-                      <Link
-                        href={profile.instagram || "#"}
-                        className="text-muted-foreground hover:text-primary"
-                      >
-                        <Instagram className="w-5 h-5" />
-                      </Link>
-                      <Link
-                        href={profile.twitter || "#"}
-                        className="text-muted-foreground hover:text-primary"
-                      >
-                        <Twitter className="w-5 h-5" />
-                      </Link>
-                      <Link
-                        href={profile.website || "#"}
-                        className="text-muted-foreground hover:text-primary"
-                      >
-                        <Globe className="w-5 h-5" />
-                      </Link>
+                      {/* Social Links */}
+                      {profile.instagram && (
+                        <Link
+                          href={profile.instagram || "#"}
+                          className="text-muted-foreground hover:text-primary"
+                        >
+                          <Instagram className="w-5 h-5" />
+                        </Link>
+                      )}
+                      {profile.twitter && (
+                        <Link
+                          href={profile.twitter || "#"}
+                          className="text-muted-foreground hover:text-primary"
+                        >
+                          <Twitter className="w-5 h-5" />
+                        </Link>
+                      )}
+                      {profile.website && (
+                        <Link
+                          href={profile.website || "#"}
+                          className="text-muted-foreground hover:text-primary"
+                        >
+                          <Globe className="w-5 h-5" />
+                        </Link>
+                      )}
                     </div>
                   </div>
                 </div>
