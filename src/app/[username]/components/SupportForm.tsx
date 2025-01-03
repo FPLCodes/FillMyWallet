@@ -6,6 +6,8 @@ import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Label } from "@/components/ui/label";
 import { Profile } from "../page";
 import { Heart } from "lucide-react";
+import { useState } from "react";
+import { useSupportUser } from "../hooks/useSupportUser";
 
 export default function SupportForm({
   profile,
@@ -22,7 +24,21 @@ export default function SupportForm({
   handleCustomAmountChange: (value: string) => void;
   displayAmount: string;
 }) {
+  const [name, setName] = useState("");
+  const [message, setMessage] = useState("");
+  const { sendSupport, isProcessing } = useSupportUser(profile.walletAddress);
   const predefinedAmounts = [0.1, 0.2, 0.5, 1.0];
+
+  const handleSupportClick = async () => {
+    const amount =
+      selectedAmount === "custom" ? parseFloat(customAmount) : selectedAmount;
+    if (!amount || isNaN(amount) || amount <= 0) {
+      alert("Please enter a valid amount.");
+      return;
+    }
+
+    await sendSupport(amount, name, message, profile.walletAddress);
+  };
 
   return (
     <Card className="sticky top-8 border-2 border-primary shadow-lg">
@@ -36,7 +52,7 @@ export default function SupportForm({
           <RadioGroup
             value={
               selectedAmount === "custom" ? "custom" : selectedAmount.toFixed(1)
-            } // Bind to selectedAmount
+            }
             onValueChange={(value) =>
               setSelectedAmount(
                 value === "custom" ? "custom" : parseFloat(value)
@@ -85,15 +101,29 @@ export default function SupportForm({
             </div>
           </RadioGroup>
 
-          <Input placeholder="Name (optional)" />
+          <Input
+            placeholder="Name (optional)"
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+          />
           <Textarea
             placeholder="Leave a message (optional)"
             className="resize-none"
             rows={4}
+            value={message}
+            onChange={(e) => setMessage(e.target.value)}
           />
-          <Button className="w-full bg-primary hover:bg-primary/90">
-            <Heart className="w-4 h-4 mr-2" />
-            Support with {displayAmount}
+          <Button
+            className="w-full bg-primary hover:bg-primary/90"
+            onClick={handleSupportClick}
+            disabled={isProcessing}
+          >
+            {isProcessing ? (
+              "Processing..."
+            ) : (
+              <Heart className="w-4 h-4 mr-2" />
+            )}
+            {isProcessing ? "" : `Support with ${displayAmount}`}
           </Button>
         </div>
       </CardContent>
