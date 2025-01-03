@@ -4,6 +4,7 @@ import Link from "next/link";
 import { getProfileAction } from "./src/profileActions";
 
 export interface Profile {
+  walletAddress: string;
   username: string;
   title?: string;
   bio?: string;
@@ -11,11 +12,11 @@ export interface Profile {
   twitter?: string;
   website?: string;
   coverImage?: number;
-  supporters: {
+  supporters?: {
     id: number;
-    name?: string;
+    name: string;
     amount: number;
-    message?: string;
+    message: string;
     avatar: string;
   }[];
 }

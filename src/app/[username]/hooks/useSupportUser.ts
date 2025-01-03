@@ -8,6 +8,7 @@ import {
 import { useWallet } from "@solana/wallet-adapter-react";
 import { db } from "@/lib/firebase";
 import { doc, updateDoc, arrayUnion } from "firebase/firestore";
+import { toast } from "@/hooks/use-toast";
 
 interface Supporter {
   name?: string;
@@ -16,7 +17,10 @@ interface Supporter {
   signature: string;
 }
 
-export const useSupportUser = (recipientPublicKey: string) => {
+export const useSupportUser = (
+  recipientPublicKey: string,
+  refreshSupporters: () => void // Callback to refresh supporters list
+) => {
   const [isProcessing, setIsProcessing] = useState(false);
   const { publicKey, sendTransaction } = useWallet();
 
@@ -27,7 +31,11 @@ export const useSupportUser = (recipientPublicKey: string) => {
     userWalletAddress: string
   ) => {
     if (!publicKey) {
-      alert("Please connect your wallet.");
+      toast({
+        title: "Wallet not connected",
+        description: "Please connect your wallet to proceed.",
+        variant: "destructive",
+      });
       return;
     }
 
@@ -66,8 +74,6 @@ export const useSupportUser = (recipientPublicKey: string) => {
         "confirmed" // Commitment level
       );
 
-      console.log("Transaction successful:", signature);
-
       // Update Firestore
       const newSupporter: Supporter = {
         name,
@@ -81,10 +87,20 @@ export const useSupportUser = (recipientPublicKey: string) => {
         supporters: arrayUnion(newSupporter),
       });
 
-      alert("Support successful!");
+      // Notify the user of success
+      toast({
+        title: "Support sent successfully",
+        description: `You have supported ${amount} SOL.`,
+      });
+
+      // Refresh supporters list
+      refreshSupporters();
     } catch (error) {
-      console.error("Error processing transaction:", error);
-      alert("There was an error processing the transaction. Please try again.");
+      toast({
+        title: "Transaction failed",
+        description: "There was an error processing your transaction.",
+        variant: "destructive",
+      });
     } finally {
       setIsProcessing(false);
     }

@@ -1,6 +1,8 @@
-import { useState, useMemo } from "react";
+import { useState, useMemo, useCallback } from "react";
 import { useWallet } from "@solana/wallet-adapter-react";
 import { Profile } from "../page";
+import { db } from "@/lib/firebase";
+import { doc, getDoc } from "firebase/firestore";
 
 const gradients = [
   "bg-gradient-to-r from-purple-400 via-pink-500 to-red-500",
@@ -10,6 +12,7 @@ const gradients = [
 ];
 
 export const useGetProfileContent = (profile: Profile) => {
+  const [supporters, setSupporters] = useState(profile.supporters);
   const [selectedAmount, setSelectedAmount] = useState<number | "custom">(0.1);
   const [customAmount, setCustomAmount] = useState<string>("");
   const [showAllSupporters, setShowAllSupporters] = useState(false);
@@ -24,9 +27,8 @@ export const useGetProfileContent = (profile: Profile) => {
   );
 
   const visibleSupporters = useMemo(
-    () =>
-      showAllSupporters ? profile.supporters : profile.supporters.slice(0, 3),
-    [showAllSupporters, profile.supporters]
+    () => (showAllSupporters ? supporters : supporters.slice(0, 3)),
+    [showAllSupporters, supporters]
   );
 
   const displayAmount = useMemo(() => {
@@ -42,6 +44,20 @@ export const useGetProfileContent = (profile: Profile) => {
     }
   };
 
+  const refreshSupporters = useCallback(async () => {
+    try {
+      const profileDoc = await getDoc(
+        doc(db, "profiles", profile.walletAddress)
+      );
+      if (profileDoc.exists()) {
+        const profileData = profileDoc.data();
+        setSupporters(profileData.supporters || []);
+      }
+    } catch (error) {
+      console.error("Error refreshing supporters:", error);
+    }
+  }, [profile.walletAddress]);
+
   return {
     selectedAmount,
     setSelectedAmount,
@@ -56,5 +72,6 @@ export const useGetProfileContent = (profile: Profile) => {
     visibleSupporters,
     displayAmount,
     gradients,
+    refreshSupporters,
   };
 };

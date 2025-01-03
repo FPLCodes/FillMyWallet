@@ -27,9 +27,10 @@ export default function ProfileContent({ profile }: ProfileContentProps) {
     selectedGradient,
     setSelectedGradient,
     isOwnProfile,
-    visibleSupporters,
+    visibleSupporters = [],
     displayAmount,
     gradients,
+    refreshSupporters,
   } = useGetProfileContent(profile);
 
   return (
@@ -108,6 +109,7 @@ export default function ProfileContent({ profile }: ProfileContentProps) {
                       customAmount={customAmount}
                       handleCustomAmountChange={handleCustomAmountChange}
                       displayAmount={displayAmount}
+                      refreshSupporters={refreshSupporters}
                     />
                   </div>
                 )}
@@ -152,8 +154,9 @@ export default function ProfileContent({ profile }: ProfileContentProps) {
                                   <div className="flex justify-between items-start">
                                     <div className="flex items-center space-x-1">
                                       <p className="font-semibold">
-                                        {supporter.name?.split(" ")[0] ??
-                                          "Kind stranger"}
+                                        {supporter.name === ""
+                                          ? "Kind stranger"
+                                          : supporter.name}
                                       </p>
                                       <p className="text-muted-foreground">
                                         filled {supporter.amount} SOL
@@ -176,15 +179,16 @@ export default function ProfileContent({ profile }: ProfileContentProps) {
                           {profile.username}!
                         </p>
                       )}
-                      {profile.supporters.length > 3 && !showAllSupporters && (
-                        <Button
-                          variant="outline"
-                          className="mt-4 w-full"
-                          onClick={() => setShowAllSupporters(true)}
-                        >
-                          Show More
-                        </Button>
-                      )}
+                      {(profile.supporters?.length ?? 0) > 3 &&
+                        !showAllSupporters && (
+                          <Button
+                            variant="outline"
+                            className="mt-4 w-full"
+                            onClick={() => setShowAllSupporters(true)}
+                          >
+                            Show More
+                          </Button>
+                        )}
                     </div>
                   </TabsContent>
                   <TabsContent value="posts">
@@ -211,6 +215,7 @@ export default function ProfileContent({ profile }: ProfileContentProps) {
                 customAmount={customAmount}
                 handleCustomAmountChange={handleCustomAmountChange}
                 displayAmount={displayAmount}
+                refreshSupporters={refreshSupporters}
               />
             </div>
           )}

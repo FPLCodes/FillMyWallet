@@ -8,9 +8,11 @@ import { Profile } from "../page";
 import { Heart } from "lucide-react";
 import { useState } from "react";
 import { useSupportUser } from "../hooks/useSupportUser";
+import { toast } from "@/hooks/use-toast";
 
 export default function SupportForm({
   profile,
+  refreshSupporters,
   selectedAmount,
   setSelectedAmount,
   customAmount,
@@ -18,6 +20,7 @@ export default function SupportForm({
   displayAmount,
 }: {
   profile: Profile;
+  refreshSupporters: () => void;
   selectedAmount: number | "custom";
   setSelectedAmount: (amount: number | "custom") => void;
   customAmount: string;
@@ -26,14 +29,22 @@ export default function SupportForm({
 }) {
   const [name, setName] = useState("");
   const [message, setMessage] = useState("");
-  const { sendSupport, isProcessing } = useSupportUser(profile.walletAddress);
   const predefinedAmounts = [0.1, 0.2, 0.5, 1.0];
+
+  const { sendSupport, isProcessing } = useSupportUser(
+    profile.walletAddress,
+    refreshSupporters
+  );
 
   const handleSupportClick = async () => {
     const amount =
       selectedAmount === "custom" ? parseFloat(customAmount) : selectedAmount;
     if (!amount || isNaN(amount) || amount <= 0) {
-      alert("Please enter a valid amount.");
+      toast({
+        title: "Invalid Amount",
+        description: "Please enter a valid amount to support.",
+        variant: "destructive",
+      });
       return;
     }
 
