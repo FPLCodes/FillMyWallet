@@ -1,6 +1,5 @@
 "use client";
 
-import { useState } from "react";
 import { Instagram, Twitter, Globe } from "lucide-react";
 import Link from "next/link";
 
@@ -11,46 +10,27 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Profile } from "../page";
 import SupportForm from "./SupportForm";
 import GradientSelector from "./GradientSelector";
-import { useWallet } from "@solana/wallet-adapter-react";
+import { useGetProfileContent } from "../hooks/useGetProfileContent";
 
 interface ProfileContentProps {
   profile: Profile;
 }
 
-const gradients = [
-  "bg-gradient-to-r from-purple-400 via-pink-500 to-red-500",
-  "bg-gradient-to-r from-blue-400 via-teal-500 to-green-500",
-  "bg-gradient-to-r from-yellow-400 via-orange-500 to-red-500",
-  "bg-gradient-to-r from-indigo-400 via-purple-500 to-pink-500",
-];
-
 export default function ProfileContent({ profile }: ProfileContentProps) {
-  const [selectedAmount, setSelectedAmount] = useState<number | "custom">(0.1);
-  const [customAmount, setCustomAmount] = useState<string>("");
-  const [showAllSupporters, setShowAllSupporters] = useState(false);
-  const [selectedGradient, setSelectedGradient] = useState(
-    gradients[(profile.coverImage ?? 0) % gradients.length]
-  );
-  const { publicKey } = useWallet();
-  const isOwnProfile =
-    publicKey && publicKey.toBase58() === profile.walletAddress;
-
-  const handleCustomAmountChange = (value: string) => {
-    if (value === "" || /^\d*\.?\d*$/.test(value)) {
-      setCustomAmount(value);
-    }
-  };
-
-  const displayAmount =
-    selectedAmount === "custom"
-      ? customAmount
-        ? `${customAmount} SOL`
-        : "Custom Amount"
-      : `${selectedAmount} SOL`;
-
-  const visibleSupporters = showAllSupporters
-    ? profile.supporters
-    : profile.supporters.slice(0, 3);
+  const {
+    selectedAmount,
+    setSelectedAmount,
+    customAmount,
+    handleCustomAmountChange,
+    showAllSupporters,
+    setShowAllSupporters,
+    selectedGradient,
+    setSelectedGradient,
+    isOwnProfile,
+    visibleSupporters,
+    displayAmount,
+    gradients,
+  } = useGetProfileContent(profile);
 
   return (
     <div className="min-h-screen">
@@ -77,8 +57,10 @@ export default function ProfileContent({ profile }: ProfileContentProps) {
               <CardContent className="p-6">
                 {/* Profile Details */}
                 <div className="flex flex-col sm:flex-row gap-6 items-start sm:items-center">
-                  <Avatar className="w-24 h-24 border-4 border-background">
-                    <AvatarFallback>{profile.username[0]}</AvatarFallback>
+                  <Avatar className="w-24 h-24 border-2 border-primary">
+                    <AvatarFallback className="text-xl">
+                      {profile.username[0]}
+                    </AvatarFallback>
                   </Avatar>
                   <div className="flex-1">
                     <h1 className="text-2xl font-bold text-foreground">
