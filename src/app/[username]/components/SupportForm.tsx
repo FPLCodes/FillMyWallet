@@ -52,10 +52,10 @@ export default function SupportForm({
   };
 
   return (
-    <Card className="sticky top-8 border-2 border-primary shadow-lg">
+    <Card className="sticky top-8 border-none shadow-lg">
       <CardHeader className="bg-primary/5 mb-4">
         <CardTitle className="text-center text-primary">
-          Support {profile.username}
+          Fill {profile.username}&apos;s wallet
         </CardTitle>
       </CardHeader>
       <CardContent>

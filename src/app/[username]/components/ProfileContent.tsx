@@ -54,16 +54,16 @@ export default function ProfileContent({ profile }: ProfileContentProps) {
         >
           <div className={isOwnProfile ? "w-full" : "lg:col-span-2"}>
             {/* Main Card */}
-            <Card className="shadow-lg">
+            <Card className="shadow-lg border-none">
               <CardContent className="p-6">
                 {/* Profile Details */}
-                <div className="flex flex-col sm:flex-row gap-6 items-start sm:items-center">
-                  <Avatar className="w-24 h-24 border-2 border-primary">
+                <div className="flex flex-col sm:flex-row -mt-16 sm:mt-0 gap-3 sm:gap-6 w-full justify-center items-start sm:items-center">
+                  <Avatar className="w-24 h-24 border-2 border-primary mx-auto">
                     <AvatarFallback className="text-xl">
                       {profile.username[0]}
                     </AvatarFallback>
                   </Avatar>
-                  <div className="flex-1">
+                  <div className="flex-1 mx-auto text-center sm:text-left">
                     <div className="flex space-x-2 items-center">
                       <h1 className="text-2xl font-bold text-foreground">
                         {profile.username}
@@ -76,12 +76,12 @@ export default function ProfileContent({ profile }: ProfileContentProps) {
                     <p className="text-muted-foreground/60 font-semibold">
                       {profile.title}
                     </p>
-                    <div className="flex gap-4 mt-4">
+                    <div className="flex gap-4 mt-4 justify-center sm:justify-normal">
                       {/* Social Links */}
                       {profile.instagram && (
                         <Link
                           href={profile.instagram}
-                          className="text-muted-foreground hover:text-primary"
+                          className="text-muted-foreground transition-colors hover:text-primary"
                         >
                           <Instagram className="w-5 h-5" />
                         </Link>
@@ -89,7 +89,7 @@ export default function ProfileContent({ profile }: ProfileContentProps) {
                       {profile.twitter && (
                         <Link
                           href={profile.twitter}
-                          className="text-muted-foreground hover:text-primary"
+                          className="text-muted-foreground transition-colors hover:text-primary"
                         >
                           <Twitter className="w-5 h-5" />
                         </Link>
@@ -97,7 +97,7 @@ export default function ProfileContent({ profile }: ProfileContentProps) {
                       {profile.website && (
                         <Link
                           href={profile.website}
-                          className="text-muted-foreground hover:text-primary"
+                          className="text-muted-foreground transition-colors hover:text-primary"
                         >
                           <Globe className="w-5 h-5" />
                         </Link>
@@ -105,10 +105,14 @@ export default function ProfileContent({ profile }: ProfileContentProps) {
                     </div>
                   </div>
                 </div>
-                <p className="mt-6 text-muted-foreground bg-muted rounded-lg p-3">
-                  {profile.bio}
-                </p>
-
+                <div className="mt-4 flex flex-col gap-2">
+                  <p className="font-medium text-muted-foreground/80">
+                    About {profile.username}
+                  </p>
+                  <p className="text-muted-foreground bg-muted rounded-lg p-3">
+                    {profile.bio}
+                  </p>
+                </div>
                 {/* Support Form for smaller screens */}
                 {!isOwnProfile && (
                   <div className="lg:hidden mt-8">
@@ -128,7 +132,7 @@ export default function ProfileContent({ profile }: ProfileContentProps) {
 
                 {/* Tabs */}
                 <Tabs defaultValue="supporters">
-                  <TabsList className="w-full">
+                  <TabsList className="w-full bg-transparent">
                     <TabsTrigger value="supporters" className="flex-1">
                       Supporters
                     </TabsTrigger>
@@ -195,7 +199,7 @@ export default function ProfileContent({ profile }: ProfileContentProps) {
                         !showAllSupporters && (
                           <Button
                             variant="outline"
-                            className="mt-4 w-full transition-colors hover:bg-primary/10 hover:text-black"
+                            className="mt-4 shadow w-full transition-colors border-none hover:bg-primary/10 hover:text-black"
                             onClick={() => setShowAllSupporters(true)}
                           >
                             Show More
