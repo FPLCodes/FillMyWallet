@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import Image from "next/image";
 import { motion } from "framer-motion";
 import Link from "next/link";
 import { useForm } from "react-hook-form";
@@ -114,10 +115,8 @@ export default function CreateProfile() {
   return (
     <div className="min-h-screen bg-gradient-to-b from-background to-muted flex flex-col items-center justify-center p-4">
       <Link href="/" className="flex items-center space-x-3 mb-8">
-        <div className="rounded-xl bg-primary p-2 shadow-lg">
-          <Wallet2 className="h-6 w-6 text-primary-foreground" />
-        </div>
-        <span className="text-2xl font-bold text-primary dark:text-secondary">
+        <Image src="/logo.png" alt="FillMyWallet" width={36} height={36} />
+        <span className="text-2xl font-medium text-primary dark:text-secondary">
           FillMyWallet
         </span>
       </Link>
@@ -146,7 +145,7 @@ export default function CreateProfile() {
         {step === 1 && (
           <motion.div variants={fadeInUp}>
             <p className="text-center text-muted-foreground mb-6">
-              First, connect your wallet to get started.
+              Connect your wallet to get started.
             </p>
             <div className="flex justify-center mb-6">
               <WalletMultiButton className="!bg-accent hover:!bg-accent/90 transition-colors !rounded-lg !py-2 !px-4 !font-medium" />

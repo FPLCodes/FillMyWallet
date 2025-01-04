@@ -5,6 +5,7 @@ import { motion } from "framer-motion";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import Image from "next/image";
 import CreatorCard from "@/components/CreatorCard";
 import { WalletMultiButton } from "@solana/wallet-adapter-react-ui";
 
@@ -17,7 +18,7 @@ const fadeInUp = {
 const staggerChildren = {
   animate: {
     transition: {
-      staggerChildren: 0.175,
+      staggerChildren: 0.2,
     },
   },
 };
@@ -28,10 +29,8 @@ export default function Home() {
       <div className="container mx-auto px-4">
         <header className="flex items-center justify-between py-6">
           <Link href="/" className="flex items-center space-x-3">
-            <div className="rounded-xl bg-primary p-2 shadow-lg">
-              <Wallet2 className="h-6 w-6 text-primary-foreground" />
-            </div>
-            <span className="text-2xl font-bold text-primary dark:text-secondary">
+            <Image src="/logo.png" alt="FillMyWallet" width={36} height={36} />
+            <span className="text-2xl font-medium text-primary dark:text-secondary">
               FillMyWallet
             </span>
           </Link>
@@ -41,7 +40,7 @@ export default function Home() {
               <Input
                 type="search"
                 placeholder="Find creators to support..."
-                className="pl-10 border-primary focus-visible:ringaccent"
+                className="pl-10 border-primary focus-visible:ring-0"
               />
             </div>
           </div>
@@ -78,21 +77,15 @@ export default function Home() {
             </motion.div>
             <p className="mt-8 text-xl text-muted-foreground max-w-2xl mx-auto">
               Create your profile, share your passion, and let your supporters
-              fill your wallet with crypto. Innovative, secure, and seamless.
+              fill your wallet with crypto.
             </p>
             <div className="mt-12 flex flex-col items-center justify-center gap-6">
               <Button
                 size="lg"
-                className="bg-accent hover:bg-accent/90 text-accent-foreground px-12 py-6 text-xl"
+                className="bg-primary border-secondary border-2 hover:bg-primary/90 text-primary-foreground px-12 py-6 text-xl"
                 asChild
               >
                 <Link href="/create">Create Your Profile</Link>
-              </Button>
-              <Button
-                variant="link"
-                className="text-primary hover:text-primary/80 dark:text-secondary dark:hover:text-secondary/80"
-              >
-                Explore Creators
               </Button>
             </div>
           </motion.div>
