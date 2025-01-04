@@ -40,7 +40,9 @@ export default function CreatorCard({
             </div>
           </CardHeader>
           <CardContent>
-            <p className="text-sm text-muted-foreground">{description}</p>
+            <p className="text-sm text-muted-foreground truncate">
+              {description}
+            </p>
           </CardContent>
         </Card>
       </motion.div>
