@@ -1,8 +1,14 @@
 "use client";
 
-import { Instagram, Twitter, Globe } from "lucide-react";
+import { Instagram, Twitter, Globe, Info } from "lucide-react";
 import Link from "next/link";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 import { Profile } from "../src/profileActions";
 
 interface ProfileDetailsProps {
@@ -23,10 +29,25 @@ export default function ProfileDetails({ profile }: ProfileDetailsProps) {
             <h1 className="text-2xl font-bold text-foreground">
               {profile.username}
             </h1>
-            <p className="text-primary/80 font-medium">
-              - {profile.uniqueSupportersCount} supporter
-              {profile.uniqueSupportersCount === 1 ? "" : "s"}
-            </p>
+            <div className="flex gap-1">
+              <p className="text-primary/80 font-medium">
+                - {profile.uniqueSupportersCount} supporter
+                {profile.uniqueSupportersCount === 1 ? "" : "s"}
+              </p>
+              <TooltipProvider>
+                <Tooltip>
+                  <TooltipTrigger asChild>
+                    <Info className="w-4 h-4 text-muted-foreground/80 cursor-pointer" />
+                  </TooltipTrigger>
+                  <TooltipContent className="bg-primary/10 text-muted-foreground">
+                    <p>
+                      Number of unique wallet addresses that have supported this
+                      profile.
+                    </p>
+                  </TooltipContent>
+                </Tooltip>
+              </TooltipProvider>
+            </div>
           </div>
           <p className="text-muted-foreground/60 font-semibold">
             {profile.title}
