@@ -62,7 +62,7 @@ export default function ProfileContent({ profile }: ProfileContentProps) {
                 {/* Profile Details */}
                 <div className="flex flex-col sm:flex-row -mt-16 sm:mt-0 gap-3 sm:gap-6 w-full justify-center items-start sm:items-center">
                   <Avatar className="w-24 h-24 border-2 border-primary/50 mx-auto">
-                    <AvatarFallback className="text-xl bg-primary/10">
+                    <AvatarFallback className="text-xl backdrop-blur bg-primary/10">
                       {profile.username[0]}
                     </AvatarFallback>
                   </Avatar>

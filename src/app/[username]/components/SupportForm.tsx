@@ -126,7 +126,7 @@ export default function SupportForm({
             onChange={(e) => setMessage(e.target.value)}
           />
           <Button
-            className="w-full border-secondary border-2 bg-primary transition-colors hover:bg-primary/90"
+            className="w-full bg-primary transition-colors hover:bg-primary/90"
             onClick={handleSupportClick}
             disabled={isProcessing}
           >
