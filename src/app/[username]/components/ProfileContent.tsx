@@ -7,7 +7,7 @@ import { Button } from "@/components/ui/button";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Card, CardContent } from "@/components/ui/card";
-import { Profile } from "../page";
+import { Profile } from "../src/profileActions";
 import SupportForm from "./SupportForm";
 import GradientSelector from "./GradientSelector";
 import { useGetProfileContent } from "../hooks/useGetProfileContent";
