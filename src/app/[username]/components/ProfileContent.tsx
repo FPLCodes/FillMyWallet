@@ -75,13 +75,13 @@ export default function ProfileContent({ profile }: ProfileContentProps) {
                   <TabsList className="w-full gap-2 bg-transparent">
                     <TabsTrigger
                       value="supporters"
-                      className="flex-1 transition-colors hover:bg-muted/50"
+                      className="flex-1 py-2 transition-colors hover:bg-muted/60"
                     >
                       Supporters
                     </TabsTrigger>
                     <TabsTrigger
                       value="posts"
-                      className="flex-1 transition-colors hover:bg-muted/50"
+                      className="flex-1 py-2 transition-colors hover:bg-muted/60"
                     >
                       Posts
                     </TabsTrigger>
