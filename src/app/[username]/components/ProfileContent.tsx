@@ -1,16 +1,13 @@
 "use client";
 
-import { Instagram, Twitter, Globe } from "lucide-react";
-import Link from "next/link";
-
-import { Button } from "@/components/ui/button";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Card, CardContent } from "@/components/ui/card";
-import { Profile } from "../src/profileActions";
-import SupportForm from "./SupportForm";
 import GradientSelector from "./GradientSelector";
+import SupportForm from "./SupportForm";
+import ProfileDetails from "./ProfileDetails";
+import SupportersList from "./SupportersList";
 import { useGetProfileContent } from "../hooks/useGetProfileContent";
+import { Profile } from "../src/profileActions";
 
 interface ProfileContentProps {
   profile: Profile;
@@ -27,14 +24,11 @@ export default function ProfileContent({ profile }: ProfileContentProps) {
     selectedGradient,
     setSelectedGradient,
     isOwnProfile,
-    visibleSupporters = [],
+    visibleSupporters,
     displayAmount,
     gradients,
     refreshSupporters,
   } = useGetProfileContent(profile);
-
-  const supporterAvatarUrl = (text: string) =>
-    `https://api.dicebear.com/9.x/fun-emoji/svg?seed=${text}eyes=closed,closed2,cute,glasses,pissed,plain,sad,shades,sleepClose,stars,wink,wink2,crying&mouth=cute,lilSmile,plain,shout,sick,smileLol,smileTeeth,tongueOut,wideSmile`;
 
   return (
     <div className="min-h-screen">
@@ -56,67 +50,9 @@ export default function ProfileContent({ profile }: ProfileContentProps) {
           }`}
         >
           <div className={isOwnProfile ? "w-full" : "lg:col-span-2"}>
-            {/* Main Card */}
             <Card className="shadow-lg border-none">
               <CardContent className="p-6">
-                {/* Profile Details */}
-                <div className="flex flex-col sm:flex-row -mt-16 sm:mt-0 gap-3 sm:gap-6 w-full justify-center items-start sm:items-center">
-                  <Avatar className="w-24 h-24 border-2 border-primary/50 mx-auto">
-                    <AvatarFallback className="text-xl backdrop-blur bg-primary/10">
-                      {profile.username[0]}
-                    </AvatarFallback>
-                  </Avatar>
-                  <div className="flex-1 mx-auto text-center sm:text-left">
-                    <div className="flex space-x-2 items-center">
-                      <h1 className="text-2xl font-bold text-foreground">
-                        {profile.username}
-                      </h1>
-                      <p className="text-primary/80 font-medium">
-                        - {profile.uniqueSupportersCount} supporter
-                        {profile.uniqueSupportersCount === 1 ? "" : "s"}
-                      </p>
-                    </div>
-                    <p className="text-muted-foreground/60 font-semibold">
-                      {profile.title}
-                    </p>
-                    <div className="flex gap-4 mt-4 justify-center sm:justify-normal">
-                      {/* Social Links */}
-                      {profile.instagram && (
-                        <Link
-                          href={profile.instagram}
-                          className="text-muted-foreground transition-colors hover:text-primary"
-                        >
-                          <Instagram className="w-5 h-5" />
-                        </Link>
-                      )}
-                      {profile.twitter && (
-                        <Link
-                          href={profile.twitter}
-                          className="text-muted-foreground transition-colors hover:text-primary"
-                        >
-                          <Twitter className="w-5 h-5" />
-                        </Link>
-                      )}
-                      {profile.website && (
-                        <Link
-                          href={profile.website}
-                          className="text-muted-foreground transition-colors hover:text-primary"
-                        >
-                          <Globe className="w-5 h-5" />
-                        </Link>
-                      )}
-                    </div>
-                  </div>
-                </div>
-                <div className="mt-4 flex flex-col gap-2">
-                  <p className="font-medium text-muted-foreground/80">
-                    About {profile.username}
-                  </p>
-                  <p className="text-muted-foreground bg-muted rounded-lg p-3">
-                    {profile.bio}
-                  </p>
-                </div>
-                {/* Support Form for smaller screens */}
+                <ProfileDetails profile={profile} />
                 {!isOwnProfile && (
                   <div className="lg:hidden mt-8">
                     <SupportForm
@@ -130,10 +66,7 @@ export default function ProfileContent({ profile }: ProfileContentProps) {
                     />
                   </div>
                 )}
-
                 <div className="my-6" />
-
-                {/* Tabs */}
                 <Tabs defaultValue="supporters">
                   <TabsList className="w-full gap-2 bg-transparent">
                     <TabsTrigger
@@ -150,71 +83,12 @@ export default function ProfileContent({ profile }: ProfileContentProps) {
                     </TabsTrigger>
                   </TabsList>
                   <TabsContent value="supporters">
-                    <div className="mt-3">
-                      <h2 className="text-xl font-semibold mb-4">
-                        Recent Supporters
-                      </h2>
-                      {visibleSupporters.length > 0 ? (
-                        <div className="space-y-6 text-sm">
-                          {visibleSupporters.map((supporter, index) => (
-                            <div
-                              key={index}
-                              className={`flex gap-4 ${
-                                !supporter.message ? "items-center" : ""
-                              }`}
-                            >
-                              <Avatar className="w-8 h-8 rounded-sm">
-                                <AvatarImage
-                                  src={supporterAvatarUrl(supporter.signature)}
-                                />
-                                <AvatarFallback>
-                                  {supporter.name?.[0] ?? "U"}
-                                </AvatarFallback>
-                              </Avatar>
-                              <div className="flex-1">
-                                <div className="flex justify-between items-start">
-                                  <div className="flex items-center space-x-1">
-                                    <p className="font-semibold">
-                                      {supporter.name === ""
-                                        ? "Kind stranger"
-                                        : supporter.name}
-                                    </p>
-                                    <p>filled</p>
-                                    <a
-                                      className="text-primary/80 transition-colors hover:text-primary cursor-pointer"
-                                      href={`https://explorer.solana.com/tx/${supporter.signature}?cluster=devnet`}
-                                      target="_blank"
-                                    >
-                                      {supporter.amount} SOL
-                                    </a>
-                                  </div>
-                                </div>
-                                {supporter.message ? (
-                                  <p className="mt-2 bg-primary/10 rounded-md p-3">
-                                    {supporter.message}
-                                  </p>
-                                ) : null}
-                              </div>
-                            </div>
-                          ))}
-                        </div>
-                      ) : (
-                        <p className="text-center text-muted-foreground">
-                          No supporters yet. Be the first one to support{" "}
-                          {profile.username}!
-                        </p>
-                      )}
-                      {(profile.supporters?.length ?? 0) > 3 &&
-                        !showAllSupporters && (
-                          <Button
-                            variant="outline"
-                            className="mt-4 shadow w-full transition-colors border-none hover:bg-primary/10 hover:text-black"
-                            onClick={() => setShowAllSupporters(true)}
-                          >
-                            Show More
-                          </Button>
-                        )}
-                    </div>
+                    <SupportersList
+                      profile={profile}
+                      visibleSupporters={visibleSupporters}
+                      showAllSupporters={showAllSupporters}
+                      setShowAllSupporters={setShowAllSupporters}
+                    />
                   </TabsContent>
                   <TabsContent value="posts">
                     <div className="mt-3">
@@ -229,8 +103,6 @@ export default function ProfileContent({ profile }: ProfileContentProps) {
               </CardContent>
             </Card>
           </div>
-
-          {/* Support Form for larger screens */}
           {!isOwnProfile && (
             <div className="hidden lg:block lg:col-span-1">
               <SupportForm
