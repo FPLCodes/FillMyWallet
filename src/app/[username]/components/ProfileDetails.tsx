@@ -37,7 +37,7 @@ export default function ProfileDetails({ profile }: ProfileDetailsProps) {
               <TooltipProvider>
                 <Tooltip>
                   <TooltipTrigger asChild>
-                    <Info className="w-4 h-4 text-muted-foreground/80 cursor-pointer" />
+                    <Info className="w-4 h-4 text-muted-foreground/70 cursor-pointer" />
                   </TooltipTrigger>
                   <TooltipContent className="bg-primary/10 text-muted-foreground">
                     <p>

@@ -35,11 +35,15 @@ export default function ProfileContent({ profile }: ProfileContentProps) {
       {/* Cover Photo */}
       <div className={`w-full h-64 ${selectedGradient}`}>
         <div className="mx-auto px-4 h-full flex items-start justify-end pt-20">
-          <GradientSelector
-            selectedGradient={selectedGradient}
-            gradients={gradients}
-            setSelectedGradient={setSelectedGradient}
-          />
+          {isOwnProfile && (
+            <GradientSelector
+              selectedGradient={selectedGradient}
+              gradients={gradients}
+              setSelectedGradient={setSelectedGradient}
+              walletAddress={profile.walletAddress}
+              currentCoverImage={profile.coverImage || 0}
+            />
+          )}
         </div>
       </div>
 

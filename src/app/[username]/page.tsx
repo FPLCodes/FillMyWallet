@@ -8,7 +8,6 @@ export default async function ProfilePage({
 }: {
   params: { username: string };
 }) {
-  // `params` is synchronous, so we directly pass `params.username`
   const profile = await getProfileAction(params.username);
 
   if (!profile) {
