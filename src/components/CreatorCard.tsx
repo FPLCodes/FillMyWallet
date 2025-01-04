@@ -26,7 +26,7 @@ export default function CreatorCard({
       >
         <Card className="bg-card border-primary dark:border-secondary">
           <CardHeader className="flex flex-row items-center gap-4">
-            <Avatar className="h-12 w-12 border-2 border-primary dark:border-secondary">
+            <Avatar className="h-12 w-12 dark:border-secondary">
               <AvatarImage src={`https://avatar.vercel.sh/${name}`} />
               <AvatarFallback className="bg-primary text-primary-foreground">
                 {name[0]}

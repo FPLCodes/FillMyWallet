@@ -47,7 +47,7 @@ export default function Home() {
           <WalletMultiButton className="!bg-accent hover:!bg-accent/90 transition-colors !rounded-lg !py-2 !font-medium" />
         </header>
 
-        <main className="relative min-h-3.5 flex flex-col mt-28 mb-12">
+        <main className="relative min-h-3.5 flex flex-col mt-28 mb-20">
           <div className="absolute inset-0 -z-10">
             <div className="absolute left-1/4 top-0 h-64 w-64 rounded-full bg-primary/20 blur-3xl" />
             <div className="absolute right-1/4 top-1/3 h-64 w-64 rounded-full bg-secondary/20 blur-3xl" />
@@ -82,7 +82,7 @@ export default function Home() {
             <div className="mt-12 flex flex-col items-center justify-center gap-6">
               <Button
                 size="lg"
-                className="bg-primary border-secondary border-2 hover:bg-primary/90 text-primary-foreground px-12 py-6 text-xl"
+                className="bg-primary border-secondary border-2 rounded-full hover:bg-primary/90 text-primary-foreground px-12 py-6 text-xl"
                 asChild
               >
                 <Link href="/create">Create Your Profile</Link>
