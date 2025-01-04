@@ -132,16 +132,22 @@ export default function ProfileContent({ profile }: ProfileContentProps) {
 
                 {/* Tabs */}
                 <Tabs defaultValue="supporters">
-                  <TabsList className="w-full bg-transparent">
-                    <TabsTrigger value="supporters" className="flex-1">
+                  <TabsList className="w-full gap-2 bg-transparent">
+                    <TabsTrigger
+                      value="supporters"
+                      className="flex-1 transition-colors hover:bg-muted/50"
+                    >
                       Supporters
                     </TabsTrigger>
-                    <TabsTrigger value="posts" className="flex-1">
+                    <TabsTrigger
+                      value="posts"
+                      className="flex-1 transition-colors hover:bg-muted/50"
+                    >
                       Posts
                     </TabsTrigger>
                   </TabsList>
                   <TabsContent value="supporters">
-                    <div className="mt-4">
+                    <div className="mt-3">
                       <h2 className="text-xl font-semibold mb-4">
                         Recent Supporters
                       </h2>
@@ -208,7 +214,7 @@ export default function ProfileContent({ profile }: ProfileContentProps) {
                     </div>
                   </TabsContent>
                   <TabsContent value="posts">
-                    <div className="mt-4">
+                    <div className="mt-3">
                       <h2 className="text-xl font-semibold mb-4">Posts</h2>
                       <p className="text-center text-muted-foreground">
                         No posts yet. Check back later for updates from{" "}
