@@ -1,17 +1,38 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Search } from "lucide-react";
 import Link from "next/link";
 import { Input } from "@/components/ui/input";
 import { WalletMultiButton } from "@solana/wallet-adapter-react-ui";
 import Image from "next/image";
 import { useSearchUsers } from "@/hooks/useSearchUsers";
+import { useWallet } from "@solana/wallet-adapter-react";
+import { Button } from "@/components/ui/button";
+import { getUsernameFromWallet } from "@/lib/serverActions";
 
 export default function Header() {
   const [searchTerm, setSearchTerm] = useState("");
   const { searchResults, isSearching, searchUsers, selectUser } =
     useSearchUsers();
+  const { connected, publicKey } = useWallet();
+  const [username, setUsername] = useState<string | null>(null);
+
+  // Fetch the username associated with the wallet address
+  useEffect(() => {
+    const fetchUsername = async () => {
+      if (publicKey) {
+        const result = await getUsernameFromWallet(publicKey.toBase58());
+        setUsername(result);
+      }
+    };
+
+    if (connected) {
+      fetchUsername();
+    } else {
+      setUsername(null);
+    }
+  }, [connected, publicKey]);
 
   const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
@@ -60,7 +81,14 @@ export default function Header() {
           </div>
         )}
       </div>
-      <WalletMultiButton className="!bg-accent hover:!bg-accent/90 transition-colors !rounded-lg !py-2 !font-medium" />
+      <div className="flex items-center space-x-4">
+        {connected && username && (
+          <Button variant="secondary" className="rounded-lg" asChild>
+            <Link href={`/${username}`}>My Profile</Link>
+          </Button>
+        )}
+        <WalletMultiButton className="!bg-accent hover:!bg-accent/90 transition-colors !rounded-lg !py-2 !font-medium" />
+      </div>
     </header>
   );
 }

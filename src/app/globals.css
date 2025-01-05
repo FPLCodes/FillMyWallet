@@ -69,12 +69,19 @@ body {
 
 .wallet-adapter-button-trigger {
   @apply bg-primary text-primary-foreground;
-  border-radius: var(--radius);
+  border-radius: var(--radius) !important;
+  height: 2.25rem;
   transition: all 0.1s;
+  padding: 0 18px !important;
+  font-size: 0.875rem !important;
 }
 
 .wallet-adapter-button-trigger:hover {
-  @apply bg-primary/70 !important;
+  @apply bg-primary/90 !important;
+}
+
+.wallet-adapter-button-start-icon {
+  width: 22px !important;
 }
 
 .wallet-adapter-dropdown-list {
@@ -86,6 +93,7 @@ body {
 .wallet-adapter-dropdown-list-item {
   @apply text-muted-foreground;
   transition: all 0.1s;
+  padding: 0 !important;
 }
 
 .wallet-adapter-dropdown-list-item:hover {
