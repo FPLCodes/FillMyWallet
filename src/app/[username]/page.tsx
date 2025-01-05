@@ -8,16 +8,18 @@ import { getProfileAction } from "./src/profileActions";
 export default async function ProfilePage({
   params,
 }: {
-  params: { username: string };
+  params: Promise<{ username: string }>;
 }) {
+  const { username } = await params;
+
   return (
     <Suspense fallback={<ProfileContentSkeleton />}>
-      <ProfilePageContentWrapper username={params.username} />
+      <ProfilePageContent username={username} />
     </Suspense>
   );
 }
 
-async function ProfilePageContentWrapper({ username }: { username: string }) {
+async function ProfilePageContent({ username }: { username: string }) {
   const profile = await getProfileAction(username);
 
   if (!profile) {
