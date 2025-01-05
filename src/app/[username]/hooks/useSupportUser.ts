@@ -19,7 +19,7 @@ interface Supporter {
 
 export const useSupportUser = (
   recipientPublicKey: string,
-  refreshSupporters: () => void // Callback to refresh supporters list
+  refreshSupporters: () => void
 ) => {
   const [isProcessing, setIsProcessing] = useState(false);
   const { publicKey, sendTransaction } = useWallet();
@@ -42,19 +42,40 @@ export const useSupportUser = (
     try {
       setIsProcessing(true);
 
-      const connection = new Connection("https://api.devnet.solana.com");
+      const connection = new Connection(
+        process.env.NEXT_PUBLIC_SOLANA_RPC_URL!
+      );
       const recipientKey = new PublicKey(recipientPublicKey);
+      const platformWalletKey = new PublicKey(
+        process.env.NEXT_PUBLIC_PLATFORM_WALLET!
+      );
+
+      // Constants
+      const platformFeePercentage = 0.01; // 1% fee
+      const lamportsPerSol = 10 ** 9;
+
+      // Calculate amounts
+      const totalLamports = amount * lamportsPerSol; // Convert SOL to lamports
+      const platformFee = Math.floor(totalLamports * platformFeePercentage);
+      const recipientAmount = totalLamports - platformFee;
 
       // Fetch latest blockhash
       const { blockhash, lastValidBlockHeight } =
         await connection.getLatestBlockhash();
 
-      // Create transaction
+      // Create transaction with two transfer instructions
       const transaction = new Transaction().add(
+        // Transfer to the creator
         SystemProgram.transfer({
           fromPubkey: publicKey,
           toPubkey: recipientKey,
-          lamports: amount * 10 ** 9, // Convert SOL to lamports
+          lamports: recipientAmount,
+        }),
+        // Transfer the platform fee
+        SystemProgram.transfer({
+          fromPubkey: publicKey,
+          toPubkey: platformWalletKey,
+          lamports: platformFee,
         })
       );
 
@@ -64,14 +85,14 @@ export const useSupportUser = (
       // Send transaction
       const signature = await sendTransaction(transaction, connection);
 
-      // Confirm the transaction using the new API
+      // Confirm the transaction
       await connection.confirmTransaction(
         {
           signature,
           blockhash,
           lastValidBlockHeight,
         },
-        "confirmed" // Commitment level
+        "confirmed"
       );
 
       // Update Firestore
@@ -85,6 +106,7 @@ export const useSupportUser = (
       const userDocRef = doc(db, "profiles", userWalletAddress);
       await updateDoc(userDocRef, {
         supporters: arrayUnion(newSupporter),
+        uniqueSupporters: arrayUnion(publicKey.toBase58()),
       });
 
       // Notify the user of success
@@ -96,6 +118,7 @@ export const useSupportUser = (
       // Refresh supporters list
       refreshSupporters();
     } catch (error) {
+      console.error("Error sending support:", error);
       toast({
         title: "Transaction failed",
         description: "There was an error processing your transaction.",
