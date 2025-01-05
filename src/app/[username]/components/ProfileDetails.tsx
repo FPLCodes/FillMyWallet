@@ -56,6 +56,7 @@ export default function ProfileDetails({ profile }: ProfileDetailsProps) {
             {profile.instagram && (
               <Link
                 href={profile.instagram}
+                target="_blank"
                 className="text-muted-foreground transition-colors hover:text-primary"
               >
                 <Instagram className="w-5 h-5" />
@@ -64,6 +65,7 @@ export default function ProfileDetails({ profile }: ProfileDetailsProps) {
             {profile.twitter && (
               <Link
                 href={profile.twitter}
+                target="_blank"
                 className="text-muted-foreground transition-colors hover:text-primary"
               >
                 <Twitter className="w-5 h-5" />
@@ -72,6 +74,7 @@ export default function ProfileDetails({ profile }: ProfileDetailsProps) {
             {profile.website && (
               <Link
                 href={profile.website}
+                target="_blank"
                 className="text-muted-foreground transition-colors hover:text-primary"
               >
                 <Globe className="w-5 h-5" />

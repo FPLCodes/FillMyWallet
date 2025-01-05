@@ -111,7 +111,7 @@ export const useSupportUser = (
 
       // Notify the user of success
       toast({
-        title: "Support sent successfully",
+        title: "Support sent successfully 🎉",
         description: `You have supported ${amount} SOL.`,
       });
 
