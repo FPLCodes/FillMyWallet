@@ -50,11 +50,10 @@ export function ProfileForm() {
     if (!publicKey) return;
 
     const walletAddress = publicKey.toBase58();
-    const username = await createProfile(
+    const username = await createProfile(walletAddress, {
+      ...values,
       walletAddress,
-      values.username,
-      values
-    );
+    });
 
     if (username) {
       redirect(`/${username}`);

@@ -14,6 +14,15 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
+export const metadata = {
+  title: "FillMyWallet",
+  description:
+    "FillMyWallet is a web3 platform that allows creators to receive direct support from their audience using cryptocurrency.",
+  icons: {
+    icon: "/logo.png",
+  },
+};
+
 export default function RootLayout({
   children,
 }: Readonly<{
