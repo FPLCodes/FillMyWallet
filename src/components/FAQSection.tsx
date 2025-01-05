@@ -45,7 +45,7 @@ const fadeInUp = {
 export default function FAQSection() {
   return (
     <motion.section
-      className="py-20"
+      className="py-24"
       initial="initial"
       whileInView="animate"
       viewport={{ once: true }}

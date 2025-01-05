@@ -35,7 +35,6 @@ export default function FeaturesSection() {
       >
         <motion.div
           variants={fadeInUp}
-          whileHover={{ scale: 1.05 }}
           className="rounded-lg bg-card p-8 shadow-lg"
         >
           <div className="mb-4 inline-block rounded-lg bg-primary p-3">
@@ -50,7 +49,6 @@ export default function FeaturesSection() {
         </motion.div>
         <motion.div
           variants={fadeInUp}
-          whileHover={{ scale: 1.05 }}
           className="rounded-lg bg-card p-8 shadow-lg"
         >
           <div className="mb-4 inline-block rounded-lg bg-primary p-3">
@@ -75,7 +73,6 @@ export default function FeaturesSection() {
         </motion.div>
         <motion.div
           variants={fadeInUp}
-          whileHover={{ scale: 1.05 }}
           className="rounded-lg bg-card p-8 shadow-lg"
         >
           <div className="mb-4 inline-block rounded-lg bg-primary p-3">

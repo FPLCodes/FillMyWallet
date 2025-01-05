@@ -20,7 +20,7 @@ const staggerChildren = {
 export default function CreatorGrid() {
   return (
     <motion.div
-      className="mb-24"
+      className="mb-36 pt-5"
       initial="initial"
       whileInView="animate"
       viewport={{ once: true }}
