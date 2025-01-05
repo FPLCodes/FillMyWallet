@@ -1,11 +1,12 @@
 import { useState } from "react";
 import { createProfileAction, checkProfileAction } from "../src/profileActions";
+import { Profile } from "@/app/[username]/src/profileActions";
 
 export function useProfile() {
   const [isCreating, setIsCreating] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  const createProfile = async (walletAddress: string, profileData: any) => {
+  const createProfile = async (walletAddress: string, profileData: Profile) => {
     setIsCreating(true);
     setError(null);
 

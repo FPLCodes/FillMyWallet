@@ -10,6 +10,7 @@ import { WalletModalProvider } from "@solana/wallet-adapter-react-ui";
 import { clusterApiUrl } from "@solana/web3.js";
 
 // Default styles that can be overridden by your app
+// eslint-disable-next-line @typescript-eslint/no-require-imports
 require("@solana/wallet-adapter-react-ui/styles.css");
 
 export default function AppWalletProvider({
@@ -19,6 +20,7 @@ export default function AppWalletProvider({
 }) {
   const network = WalletAdapterNetwork.Devnet;
   const endpoint = useMemo(() => clusterApiUrl(network), [network]);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   const wallets = useMemo(() => [], [network]);
 
   return (

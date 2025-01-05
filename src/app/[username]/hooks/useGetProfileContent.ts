@@ -28,7 +28,7 @@ export const useGetProfileContent = (profile: Profile) => {
 
   const visibleSupporters = useMemo(() => {
     const sortedSupporters = [...(supporters || [])].reverse(); // Reverse the list
-    return showAllSupporters ? sortedSupporters : sortedSupporters.slice(0, 3);
+    return showAllSupporters ? sortedSupporters : sortedSupporters.slice(0, 5); // Show only the first 5 supporters
   }, [showAllSupporters, supporters]);
 
   const displayAmount = useMemo(() => {

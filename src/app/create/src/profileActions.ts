@@ -1,11 +1,12 @@
 "use server";
 
+import { Profile } from "@/app/[username]/src/profileActions";
 import { db } from "@/lib/firebase";
 import { doc, getDoc, setDoc } from "firebase/firestore";
 
 export async function createProfileAction(
   walletAddress: string,
-  profileData: any
+  profileData: Profile
 ) {
   try {
     // Check if username exists
