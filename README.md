@@ -1,36 +1,30 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# FillMyWallet
 
-## Getting Started
+FillMyWallet is a web3 platform designed to empower creators by allowing them to connect with supporters through seamless and instant cryptocurrency transactions. Built using modern web technologies, FillMyWallet leverages the Solana blockchain for fast, low-fee payments.
 
-First, run the development server:
+## Technology Stack
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+### Frontend
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+- **Next.js 15**: Modern React-based framework for SSR and client-side rendering.
+- **TailwindCSS**: Utility-first CSS framework for styling.
+- **ShadCN Components**: Prebuilt, customizable UI components.
+- **Framer Motion**: Animation library for dynamic transitions.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+### Backend
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+- **Firebase Firestore**: Real-time database for storing user profiles and supporters.
+- **Solana Web3.js**: Integration with the Solana blockchain for transactions.
 
-## Learn More
+## Tools & Libraries
 
-To learn more about Next.js, take a look at the following resources:
+- **Lucide React**: Icon library for modern and scalable SVG icons.
+- **React Hook Form**: Form management with validation.
+- **Zod**: Schema-based form validation.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Future Plans
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- Allow creators to make posts that will be stored with IPFS.
+- Expand multi-chain support.
+- Add NFT-based supporter rewards.
+- Enhance analytics for creators.
