@@ -35,18 +35,18 @@ export default function CreatorGrid() {
       >
         <motion.div variants={fadeInUp}>
           <CreatorCard
-            name="TechInnovator"
-            description="Pioneering blockchain solutions"
-            supporters={412}
-            href="/creator/techinnovator"
+            name="FPLCodes"
+            description="Creator of FillMyWallet"
+            supporters={1}
+            href="/FPLCodes"
           />
         </motion.div>
         <motion.div variants={fadeInUp}>
           <CreatorCard
-            name="CryptoArtist"
-            description="Merging art with blockchain technology"
-            supporters={289}
-            href="/creator/cryptoartist"
+            name="imposter"
+            description="There's an imposter among us"
+            supporters={2}
+            href="/imposter"
           />
         </motion.div>
         <motion.div variants={fadeInUp}>

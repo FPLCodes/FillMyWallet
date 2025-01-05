@@ -20,10 +20,7 @@ export default function CreatorCard({
 }: CreatorCardProps) {
   return (
     <Link href={href}>
-      <motion.div
-        whileHover={{ scale: 1.05 }}
-        transition={{ type: "spring", stiffness: 300 }}
-      >
+      <motion.div whileHover={{ scale: 1.05 }}>
         <Card className="bg-card border-primary dark:border-secondary">
           <CardHeader className="flex flex-row items-center gap-4">
             <Avatar className="h-12 w-12 dark:border-secondary">
