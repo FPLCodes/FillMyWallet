@@ -18,7 +18,7 @@ export default function Header() {
     setSearchTerm(value);
 
     if (value.trim()) {
-      searchUsers(value); // Trigger search
+      searchUsers(value);
     }
   };
 
