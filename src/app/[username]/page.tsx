@@ -12,12 +12,12 @@ export default async function ProfilePage({
 }) {
   return (
     <Suspense fallback={<ProfileContentSkeleton />}>
-      <ProfilePageContent username={params.username} />
+      <ProfilePageContentWrapper username={params.username} />
     </Suspense>
   );
 }
 
-async function ProfilePageContent({ username }: { username: string }) {
+async function ProfilePageContentWrapper({ username }: { username: string }) {
   const profile = await getProfileAction(username);
 
   if (!profile) {
