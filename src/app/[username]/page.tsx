@@ -1,5 +1,7 @@
+import { Suspense } from "react";
 import { Button } from "@/components/ui/button";
 import ProfileContent from "./components/ProfileContent";
+import ProfileContentSkeleton from "./components/ProfileContentSkeleton";
 import Link from "next/link";
 import { getProfileAction } from "./src/profileActions";
 
@@ -8,7 +10,15 @@ export default async function ProfilePage({
 }: {
   params: { username: string };
 }) {
-  const profile = await getProfileAction(params.username);
+  return (
+    <Suspense fallback={<ProfileContentSkeleton />}>
+      <ProfilePageContent username={params.username} />
+    </Suspense>
+  );
+}
+
+async function ProfilePageContent({ username }: { username: string }) {
+  const profile = await getProfileAction(username);
 
   if (!profile) {
     return (
