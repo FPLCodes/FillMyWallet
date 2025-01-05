@@ -10,6 +10,7 @@ FillMyWallet is a web3 platform designed to empower creators by allowing them to
 - **TailwindCSS**: Utility-first CSS framework for styling.
 - **ShadCN Components**: Prebuilt, customizable UI components.
 - **Framer Motion**: Animation library for dynamic transitions.
+- **Phantom Wallet**: Solana wallet integration for users.
 
 ### Backend
 
@@ -21,6 +22,7 @@ FillMyWallet is a web3 platform designed to empower creators by allowing them to
 - **Lucide React**: Icon library for modern and scalable SVG icons.
 - **React Hook Form**: Form management with validation.
 - **Zod**: Schema-based form validation.
+- **Dicebear Avatars**: Random avatar generator for user profiles.
 
 ## Future Plans
 
